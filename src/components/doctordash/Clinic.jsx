@@ -7,7 +7,7 @@ import { IoTimer } from "react-icons/io5";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { TbEdit } from "react-icons/tb";
 import AppointmentsModal from './AppointmentsModal';
-import Editclinicmodal from './EditClinicModal';
+import Editclinicmodal from '../EditClinicModal';
 
 
 export default function Clinic({name, Specialization, address, phone, email, status }) {

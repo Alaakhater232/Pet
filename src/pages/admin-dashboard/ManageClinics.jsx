@@ -7,8 +7,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 
 import ClinicsTable from '../../components/admindash/ClinicsTable';
 import { RiAddLine } from "react-icons/ri";
-import AddClinic from '../../components/admindash/AddClinic';
-import Addclinic from '../../components/admindash/AddClinic';
+import AddClinic from '../../components/AddClinicModal';
 
 export default function ManageClinics() {
 
@@ -34,7 +33,7 @@ export default function ManageClinics() {
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
                     <button className='custom-button d-flex align-items-center fw-bold' data-bs-toggle="modal" data-bs-target="#addclinic" > <RiAddLine size={20} /> Add clinic</button>
                 </div>
-                <Addclinic />
+                <AddClinic />
                 <ClinicsTable />
             </div>
         </Fragment>

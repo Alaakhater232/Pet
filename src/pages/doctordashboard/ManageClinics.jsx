@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import Clinic from '../../components/doctordash/Clinic'
 import { RiAddLine } from "react-icons/ri";
-import AddClinic from '../../components/doctordash/AddClinic';
+import AddClinic from '../../components/AddClinicModal';
 
 export default function Manageclinics() {
   const clinics =[

@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { MdDelete } from "react-icons/md";
 
-export default function AddClinic() {
+export default function AddClinicModal() {
   const [day, setDay] = useState('');
   const [openTime, setOpenTime] = useState('');
   const [closeTime, setCloseTime] = useState('');

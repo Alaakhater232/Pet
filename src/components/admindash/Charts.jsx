@@ -33,18 +33,18 @@ export default function Charts() {
     ];
     // الأرباح شهريًا
     const revenueData = [
-        { month: 'Jan', revenue: 2000 },
-        { month: 'Feb', revenue: 1800 },
-        { month: 'Mar', revenue: 2100 },
-        { month: 'Apr', revenue: 2300 },
-        { month: 'May', revenue: 2800 },
-        { month: 'Jun', revenue: 2200 },
-        { month: 'Jun', revenue: 1500 },
-        { month: 'Jun', revenue: 2800 },
-        { month: 'Jun', revenue: 1500 },
-        { month: 'Jun', revenue: 3000 },
-        { month: 'Jun', revenue: 2100 },
-        { month: 'Jun', revenue: 3000 },
+        { month: 'Jan', revenue: 750 },
+        { month: 'Feb', revenue: 1000 },
+        { month: 'Mar', revenue: 1500 },
+        { month: 'Apr', revenue: 1000 },
+        { month: 'May', revenue: 900 },
+        { month: 'Jun', revenue: 2000 },
+        { month: 'Jun', revenue: 800 },
+        { month: 'Jun', revenue: 1100 },
+        { month: 'Jun', revenue: 1200 },
+        { month: 'Jun', revenue: 2000 },
+        { month: 'Jun', revenue: 2500 },
+        { month: 'Jun', revenue: 1900 },
     ];
     const COLORS = ['#D9A741', '#8884d8', '#82ca9d', '#FF8042'];
     return (
