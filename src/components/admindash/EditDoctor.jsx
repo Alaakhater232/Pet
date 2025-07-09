@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import Address from '../Address'
 
 export default function EditDoctor() {
     return (
@@ -18,24 +19,21 @@ export default function EditDoctor() {
                                         <label htmlFor="doctor-name" className="form-label mb-0">Name</label>
                                         <input type="text" className="form-control w-50" id="doctor-name" />
                                     </div>
-                                    <hr />
 
                                     <div className="doctor-email d-flex align-items-center gap-3 mb-3">
                                         <label htmlFor="doctor-email" className="form-label mb-0">Email</label>
                                         <input type="email" className="form-control w-50" id="doctor-email" />
                                     </div>
-                                    <hr/>
                                     <div className="doctor-phone d-flex align-items-center gap-3 mb-3">
                                         <label htmlFor="doctor-phone" className="form-label mb-0">Phone</label>
                                         <input type="number" className="form-control w-50" id="doctor-phone" />
                                     </div>
-                                    <hr />
+                                    <Address />
                                     <div className="specialization d-flex align-items-center gap-3 mb-3">
                                         <label htmlFor="specialization" className="form-label mb-0">Specialization</label>
                                         <input type="text" className="form-control w-50" id="specialization" />
 
                                     </div>
-                                    <hr />
                                     <div className="Specialization">
 
                                     </div>

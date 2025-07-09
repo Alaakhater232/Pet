@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react'
 import { FaUsers } from "react-icons/fa6";
 import { FaUserDoctor } from "react-icons/fa6";
 import DoctorsTable from '../../components/admindash/DoctorsTable';
-import UsersTable from '../../components/admindash/ClientsTable';
 import { RiAddLine } from "react-icons/ri";
 import AddDoctor from '../../components/admindash/AddDoctor';
 import AddClient from '../../components/admindash/AddClient';

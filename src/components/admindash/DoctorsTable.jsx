@@ -14,6 +14,7 @@ export default function DoctorsTable() {
                             <th className="px-4 py-3">Name</th>
                             <th className="px-4 py-3">Email</th>
                             <th className="px-4 py-3">Phone</th>
+                            <th className="px-4 py-3">Address</th>
                             <th className="px-4 py-3">Specialization</th>
                             <th className="px-4 py-3">Status</th>
                             <th className="px-4 py-3">Action</th>
@@ -21,6 +22,7 @@ export default function DoctorsTable() {
                     </thead>
                     <tbody>
                         <tr>
+                            <td className="px-4 py-3">-</td>
                             <td className="px-4 py-3">-</td>
                             <td className="px-4 py-3">-</td>
                             <td className="px-4 py-3">-</td>

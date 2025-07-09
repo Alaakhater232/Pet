@@ -1,11 +1,15 @@
 import React, { Fragment, useState } from 'react';
 import { MdDelete } from "react-icons/md";
+import Address from './Address';
 
 export default function AddClinicModal() {
   const [day, setDay] = useState('');
   const [openTime, setOpenTime] = useState('');
   const [closeTime, setCloseTime] = useState('');
   const [workingHours, setWorkingHours] = useState([]);
+
+
+
 
   const handleAddDay = () => {
     if (day && openTime && closeTime) {
@@ -44,12 +48,7 @@ export default function AddClinicModal() {
                   <label className="form-label">Specialization</label>
                   <input type="text" className="form-control w-75" />
                 </div>
-
-                <div className="clinic-address d-flex align-items-center gap-3 mb-3">
-                  <label className="form-label">Address</label>
-                  <input type="text" className="form-control w-75" />
-                </div>
-
+                <Address />
                 <div className="clinic-phone d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Phone</label>
                   <input type="tel" className="form-control w-75" />
@@ -75,7 +74,7 @@ export default function AddClinicModal() {
                       <option value="Wednesday">Wednesday</option>
                       <option value="Thursday">Thursday</option>
                       <option value="Friday">Friday</option>
-                  </select>
+                    </select>
                     <span>from</span>
                     <input type="time" className="form-control w-auto" value={openTime} onChange={(e) => setOpenTime(e.target.value)} />
                     <span>to</span>
@@ -109,16 +108,16 @@ export default function AddClinicModal() {
                     <label htmlFor="inactive" className="form-check-label">Inactive</label>
                   </div>
                 </div>
+                <div className="modal-footer d-flex justify-content-end gap-2">
+                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
+                  <button type="button" className="custom-button" style={{ width: '100px' }}>Add</button>
+                </div>
               </form>
-            </div>
-
-            <div className="modal-footer d-flex justify-content-end gap-2">
-              <button type="button" className="btn btn-danger" data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
-              <button type="button" className="custom-button" style={{ width: '100px' }}>Add</button>
             </div>
           </div>
         </div>
       </div>
-    </Fragment>
+
+    </Fragment >
   )
 }

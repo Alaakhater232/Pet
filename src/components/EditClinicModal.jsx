@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { MdDelete } from "react-icons/md";
+import Adress from './Address';
 
 export default function Editclinicmodal() {
   const [day, setDay] = useState('');
@@ -44,11 +45,7 @@ export default function Editclinicmodal() {
                   <label className="form-label">Specialization</label>
                   <input type="text" className="form-control w-75" />
                 </div>
-
-                <div className="clinic-address d-flex align-items-center gap-3 mb-3">
-                  <label className="form-label">Address</label>
-                  <input type="text" className="form-control w-75" />
-                </div>
+                <Adress />
 
                 <div className="clinic-phone d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Phone</label>

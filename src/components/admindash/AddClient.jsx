@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import Address from '../Address'
 
 export default function AddClient() {
     return (
@@ -26,6 +27,7 @@ export default function AddClient() {
                                     <label htmlFor="clinic-address" className="form-label">Phone</label>
                                     <input type="tel" className="form-control w-75" id="clinic-address" />
                                 </div>
+                                <Address />
                             </form>
                         </div>
                         <div className="modal-footer d-flex gap-3">

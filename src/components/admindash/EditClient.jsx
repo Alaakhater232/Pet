@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import Address from '../Address'
 
 export default function EditClient() {
     return (
@@ -26,6 +27,7 @@ export default function EditClient() {
                                         <label htmlFor="doctor-phone" className="form-label mb-0">Phone</label>
                                         <input type="number" className="form-control w-50" id="doctor-phone" />
                                     </div>
+                                    <Address />
                                 </div>
                             </form>
                         </div>

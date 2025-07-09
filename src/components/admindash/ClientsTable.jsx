@@ -16,8 +16,7 @@ export default function Clienttable() {
                                 <th className="px-4 py-3">Name</th>
                                 <th className="px-4 py-3">Email</th>
                                 <th className="px-4 py-3">Phone</th>
-                                {/* <th className="px-4 py-3">Specialization</th>
-                                <th className="px-4 py-3">Status</th> */}
+                                <th className="px-4 py-3">Address</th>
                                 <th className="px-4 py-3">Action</th>
                             </tr>
                         </thead>
@@ -26,8 +25,7 @@ export default function Clienttable() {
                                 <td className="px-4 py-3">-</td>
                                 <td className="px-4 py-3">-</td>
                                 <td className="px-4 py-3">-</td>
-                                {/* <td className="px-4 py-3">-</td>
-                                <td className="px-4 py-3">-</td> */}
+                                <td className="px-4 py-3">-</td>
                                 <td className="px-4 py-3">
                                     <button type="button" className="btn border-0 p-0 me-2" data-bs-toggle="modal" data-bs-target="#editclient">
                                         <TbEdit size={20} className='' />
