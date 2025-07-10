@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import Calendar from '../../components/doctordash/Calendar';
+import Calendar from '../../components/doctordash/calendar/Calendar';
 export default function Manageappointments() {
 
   return (

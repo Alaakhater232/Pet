@@ -4,7 +4,7 @@ import Address from '../Address'
 export default function AddDoctor() {
     return (
         <Fragment>
-            <div className="modal fade" style={{ marginTop: '100px' }} id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div className="modal fade" style={{ marginTop: '70px' }} id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">

@@ -2,20 +2,29 @@ import React, { Fragment, useEffect, useState } from 'react'
 import governorates from '../governorates&cities/governorates.json'
 import cities from '../governorates&cities/cities.json'
 
-export default function Address() {
+export default function Address({ onAddressChange }) {
     const [governorate, setGovernorate] = useState('');
     const [city, setCity] = useState('');
     const [filteredCities, setFilteredCities] = useState([]);
 
     useEffect(() => {
         if (governorate) {
-            const citiesInGov = cities.filter(
-                (city) => city.governorate_id === governorate
-            );
+            const citiesInGov = cities.filter((city) => city.governorate_id === governorate);
             setFilteredCities(citiesInGov);
             setCity('');
         }
     }, [governorate]);
+
+    useEffect(() => {
+        if (governorate && city && onAddressChange) {
+            const govName = governorates.find((gov) => gov.id === governorate)?.governorate_name_en;
+
+            onAddressChange({
+                governorate: govName || '',
+                city: city,
+            });
+        }
+    }, [governorate, city, onAddressChange]);
     return (
         <Fragment>
             <div className="d-flex align-items-center gap-3 mb-3">

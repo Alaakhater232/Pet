@@ -14,17 +14,20 @@ import Manageclinics from './pages/doctordashboard/ManageClinics'
 import Manageprofile from './pages/doctordashboard/ManageProfile'
 import Manageclients from './pages/doctordashboard/ManageClients'
 import Manageappointments from './pages/doctordashboard/ManageAppointments'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   return (
     <Fragment>
+
+      <ToastContainer />
       <Routes>
         <Route path='/doctor-dashboard' element={<DoctorDashboard />}>
           <Route index element={<HelloDoctor />} />
-           <Route path='manage-clients' element={<Manageclients />} />
-           <Route path='manage-appointments' element={<Manageappointments />} />
-           <Route path='manage-clinics' element={<Manageclinics />} />
-           <Route path='manage-profile' element={<Manageprofile />} />
+          <Route path='manage-clients' element={<Manageclients />} />
+          <Route path='manage-appointments' element={<Manageappointments />} />
+          <Route path='manage-clinics' element={<Manageclinics />} />
+          <Route path='manage-profile' element={<Manageprofile />} />
         </Route>
         <Route path='/admin-dashboard' element={<AdminDashboard />} >
           <Route index element={<HelloAdmin />} />

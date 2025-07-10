@@ -7,9 +7,11 @@ import AddDoctor from '../../components/admindash/AddDoctor';
 import AddClient from '../../components/admindash/AddClient';
 import Clienttable from '../../components/admindash/ClientsTable';
 
+// import { db } from '../../firebase/firebaseConfig'
 
 export default function ManageUsers() {
     const [activeTab, setActiveTab] = useState('doctors');
+    // console.log("Firestore ready:", db);
 
     return (
         <Fragment>

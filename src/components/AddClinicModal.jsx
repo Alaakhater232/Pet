@@ -1,6 +1,11 @@
+/* eslint-disable no-undef */
 import React, { Fragment, useState } from 'react';
 import { MdDelete } from "react-icons/md";
 import Address from './Address';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { db } from '../firebase/firebaseConfig';
+import { toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddClinicModal() {
   const [day, setDay] = useState('');
@@ -8,6 +13,14 @@ export default function AddClinicModal() {
   const [closeTime, setCloseTime] = useState('');
   const [workingHours, setWorkingHours] = useState([]);
 
+  //Firebase data 
+  const [name, setName] = useState('');
+  const [specialization, setSpecialization] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('active');
+  const [address, setAddress] = useState({ governorate: '', city: '' });
+  
 
 
 
@@ -27,6 +40,95 @@ export default function AddClinicModal() {
     setWorkingHours(workingHours.filter(item => item.day !== dayDelated));
   };
 
+  // Add clinic data to Firebase
+  const handleAddClinic = async () => {
+    // Validate form fields
+    if (!name.trim() ||
+      !specialization.trim() ||
+      !phone.trim() ||
+      !email.trim() ||
+      !address.governorate ||
+      !address.city ||
+      workingHours.length === 0) {
+      toast.error('Please fill in all the required fields', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
+      return
+    }
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // if (!emailRegex.test(email)) {
+    //   toast.error('Please enter a valid email address', {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //     transition: Slide,
+    //   });
+    //   return
+    // }
+    // const phoneRegex = /^(010|011|012|015)[0-9]{8}$/;
+    // if (!phoneRegex.test(phone)) {
+    //   toast.error('Please enter a valid Egyptian phone number', {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     theme: "colored",
+    //   });
+    //   return;
+    // }
+    try {
+      // Add clinic data to Firebase 
+      const clinicData = {
+        name: name,
+        specialization: specialization,
+        phone: phone,
+        email: email,
+        status: status,
+        workingHours: workingHours,
+        address: address,
+        createdAt: Timestamp.now(),
+      };
+      await addDoc(collection(db, 'clinics'), clinicData);
+      toast.success('Clinic added successfully', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
+      setTimeout(() => {
+        document.getElementById('close-btn').click();
+        window.location.reload();
+      }, 5000);
+      // window.location.reload();
+      // Reset form fields
+      setName('');
+      setSpecialization('');
+      setPhone('');
+      setEmail('');
+      setStatus('active');
+      setWorkingHours([]);
+      document.getElementById('close-btn').click();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <Fragment>
       <div className="modal fade" id="addclinic" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -41,22 +143,22 @@ export default function AddClinicModal() {
                 {/* Clinic Info */}
                 <div className="clinic-name d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Clinic Name</label>
-                  <input type="text" className="form-control w-75" />
+                  <input type="text" className="form-control w-75" value={name} onChange={(e) => setName(e.target.value)} />
                 </div>
 
                 <div className="spcialization d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Specialization</label>
-                  <input type="text" className="form-control w-75" />
+                  <input type="text" className="form-control w-75" value={specialization} onChange={(e) => setSpecialization(e.target.value)} />
                 </div>
-                <Address />
+                <Address onAddressChange={setAddress} />
                 <div className="clinic-phone d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Phone</label>
-                  <input type="tel" className="form-control w-75" />
+                  <input type="tel" className="form-control w-75" value={phone} onChange={(e) => setPhone(e.target.value)} />
                 </div>
 
                 <div className="clinic-email d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Email</label>
-                  <input type="email" className="form-control w-75" />
+                  <input type="email" className="form-control w-75" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
 
                 <hr />
@@ -100,17 +202,17 @@ export default function AddClinicModal() {
                 <div className="status">
                   <p className='fw-bold mb-2'>Choose Status</p>
                   <div className="form-check form-check-inline">
-                    <input type="radio" name="status" id="active" className="form-check-input" />
+                    <input type="radio" name="status" id="active" className="form-check-input" checked={status === 'active'} onChange={() => setStatus('active')} />
                     <label htmlFor="active" className="form-check-label">Active</label>
                   </div>
                   <div className="form-check form-check-inline">
-                    <input type="radio" name="status" id="inactive" className="form-check-input" />
+                    <input type="radio" name="status" id="inactive" className="form-check-input" checked={status === 'inactive'} onChange={() => setStatus('inactive')} />
                     <label htmlFor="inactive" className="form-check-label">Inactive</label>
                   </div>
                 </div>
                 <div className="modal-footer d-flex justify-content-end gap-2">
-                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
-                  <button type="button" className="custom-button" style={{ width: '100px' }}>Add</button>
+                  <button type="button" className="btn btn-danger " id='close-btn' data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
+                  <button type="button" className="custom-button" style={{ width: '100px' }} onClick={handleAddClinic}>Add</button>
                 </div>
               </form>
             </div>

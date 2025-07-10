@@ -1,13 +1,27 @@
 import React, { Fragment, useState } from 'react';
 import { MdDelete } from "react-icons/md";
 import Adress from './Address';
+import { toast } from 'react-toastify';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../firebase/firebaseConfig';
 
-export default function Editclinicmodal() {
+export default function Editclinicmodal({ clinic }) {
+  const { id, name: defaultName, specialization: defaultSpec, address: defaultAddress, phone: defaultPhone, email: defaultEmail, status: defaultStatus, workingHours: defaultHours } = clinic;
   const [day, setDay] = useState('');
   const [openTime, setOpenTime] = useState('');
   const [closeTime, setCloseTime] = useState('');
-  const [workingHours, setWorkingHours] = useState([]);
 
+  const [name, setName] = useState(defaultName);
+  const [specialization, setSpecialization] = useState(defaultSpec);
+  const [email, setEmail] = useState(defaultEmail);
+  const [phone, setPhone] = useState(defaultPhone);
+  const [status, setStatus] = useState(defaultStatus);
+  const [workingHours, setWorkingHours] = useState(defaultHours || []);
+  const [address, setAddress] = useState(defaultAddress || { governorate: '', city: '' });
+
+
+
+  // add working hours
   const handleAddDay = () => {
     if (day && openTime && closeTime) {
       const exists = workingHours.some(item => item.day === day);
@@ -19,9 +33,30 @@ export default function Editclinicmodal() {
       }
     }
   };
-
   const handleDeleteDay = (dayDelated) => {
     setWorkingHours(workingHours.filter(item => item.day !== dayDelated));
+  };
+
+  //edit clinic 
+  const handleSave = async () => {
+    try {
+      const clinicRef  = doc(db, 'clinics', clinic.id);
+      await updateDoc(clinicRef , {
+        id,
+        name,
+        specialization,
+        address,
+        phone,
+        email,
+        status,
+        workingHours
+      })
+      toast.success('Clinic updated successfully');
+      document.getElementById('close-btn-edit').click();
+
+    } catch (error) {
+      toast.error("Failed to update clinic, error:" + error.message);
+    }
   };
 
   return (
@@ -38,23 +73,23 @@ export default function Editclinicmodal() {
                 {/* Clinic Info */}
                 <div className="clinic-name d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Clinic Name</label>
-                  <input type="text" className="form-control w-75" />
+                  <input type="text" className="form-control w-75" value={name} onChange={(e) => setName(e.target.value)}/>
                 </div>
 
                 <div className="spcialization d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Specialization</label>
-                  <input type="text" className="form-control w-75" />
+                  <input type="text" className="form-control w-75" value={specialization} onChange={(e) => setSpecialization(e.target.value)}/>
                 </div>
-                <Adress />
+                <Adress onAddressChange={setAddress} />
 
                 <div className="clinic-phone d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Phone</label>
-                  <input type="tel" className="form-control w-75" />
+                  <input type="tel" className="form-control w-75" value={phone} onChange={(e) => setPhone(e.target.value)} />
                 </div>
 
                 <div className="clinic-email d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Email</label>
-                  <input type="email" className="form-control w-75" />
+                  <input type="email" className="form-control w-75" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
 
                 <hr />
@@ -72,7 +107,7 @@ export default function Editclinicmodal() {
                       <option value="Wednesday">Wednesday</option>
                       <option value="Thursday">Thursday</option>
                       <option value="Friday">Friday</option>
-                  </select>
+                    </select>
                     <span>from</span>
                     <input type="time" className="form-control w-auto" value={openTime} onChange={(e) => setOpenTime(e.target.value)} />
                     <span>to</span>
@@ -98,11 +133,11 @@ export default function Editclinicmodal() {
                 <div className="status">
                   <p className='fw-bold mb-2'>Choose Status</p>
                   <div className="form-check form-check-inline">
-                    <input type="radio" name="status" id="active" className="form-check-input" />
-                    <label htmlFor="active" className="form-check-label">Active</label>
+                    <input type="radio" name="status" id="active" className="form-check-input" checked={status === 'active'} onChange={(e) => setStatus(e.target.value)} />
+                    <label htmlFor="active" className="form-check-label" >Active</label>
                   </div>
                   <div className="form-check form-check-inline">
-                    <input type="radio" name="status" id="inactive" className="form-check-input" />
+                    <input type="radio" name="status" id="inactive" className="form-check-input" checked={status === 'inactive'} onChange={(e) => setStatus(e.target.value)} />
                     <label htmlFor="inactive" className="form-check-label">Inactive</label>
                   </div>
                 </div>
@@ -110,8 +145,8 @@ export default function Editclinicmodal() {
             </div>
 
             <div className="modal-footer d-flex justify-content-end gap-2">
-              <button type="button" className="btn btn-danger" data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
-              <button type="button" className="custom-button" style={{ width: '100px' }}>Save</button>
+              <button type="button" className="btn btn-danger" id='close-btn-edit' data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
+              <button type="button" className="custom-button" style={{ width: '100px' }} onClick={handleSave}>Save</button>
             </div>
           </div>
         </div>

@@ -1,11 +1,15 @@
 import React, { Fragment, useState } from 'react'
 import { MdDelete } from "react-icons/md";
+import { db } from '../../firebase/firebaseConfig';
+import { doc, updateDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
-export default function AppointmentsModal() {
+export default function AppointmentsModal({ clinic }) {
+    const { id, workingHours: defaultHours } = clinic;
     const [day, setDay] = useState('');
     const [openTime, setOpenTime] = useState('');
     const [closeTime, setCloseTime] = useState('');
-    const [workingHours, setWorkingHours] = useState([]);
+    const [workingHours, setWorkingHours] = useState(defaultHours ||[]);
 
     const handleAddDay = () => {
         if (day && openTime && closeTime) {
@@ -21,6 +25,21 @@ export default function AppointmentsModal() {
 
     const handleDeleteDay = (dayDelated) => {
         setWorkingHours(workingHours.filter(item => item.day !== dayDelated));
+    };
+
+    //edit clinic 
+    const handleSave = async () => {
+        try {
+            const clinicRef = doc(db, 'clinics', clinic.id);
+            await updateDoc(clinicRef, {
+                workingHours
+            })
+            toast.success('Clinic updated successfully');
+            document.getElementById('close-btn-edit').click();
+
+        } catch (error) {
+            toast.error("Failed to update clinic, error:" + error.message);
+        }
     };
     return (
         <Fragment>
@@ -72,7 +91,7 @@ export default function AppointmentsModal() {
 
                         <div className="modal-footer d-flex justify-content-end gap-2">
                             <button type="button" className="btn btn-danger" data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
-                            <button type="button" className="custom-button" style={{ width: '100px' }}>Save</button>
+                            <button type="button" className="custom-button" style={{ width: '100px' }} onClick={handleSave}>Save</button>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react'
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import './calendar.css'
 export default function Calendar() {
 
     const [selectedDate, setSelectedDate] = useState(null);
@@ -25,20 +26,25 @@ export default function Calendar() {
                 <FullCalendar
                     plugins={[dayGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
+                    headerToolbar={{
+                        right: 'prev today next',
+                        left: 'title',
+                        // left: 'dayGridMonth,dayGridWeek'
+                    }}
                     dateClick={handleDateClick}
                     events={[
-                        { title: 'A', date: '2025-07-05' },
+                        { title: 'Ahmed Ali', date: '2025-07-05' },
                         { title: 'Sara Hassan', date: '2025-07-05' },
                         { title: 'Karem Samy', date: '2025-07-06' },
                     ]}
-                    height="auto"
-                //   width="100%"
+                    height={530}
+                  width="100%"
                 />
             </div>
 
             {showModal && (
                 <>
-                    <div className="modal modal-lg large show fade d-block" tabIndex="-1" role="dialog" style={{ marginTop: '150px' }}>
+                    <div className="modal modal-lg large show fade d-block " tabIndex="-1" role="dialog" style={{ marginTop: '150px' }}>
                         <div className="modal-dialog" role="document">
                             <div className="modal-content">
                                 <div className="modal-header">
@@ -54,7 +60,6 @@ export default function Calendar() {
                                                     <li key={index}>Name: {item.name}</li>
                                                     <li key={index}>Appointment: {item.time}</li>
                                                     <li key={index}>Clinic: {item.clinic}</li>
-                                                    <hr />
                                                 </>
                                             ))}
                                         </ul>
@@ -72,6 +77,8 @@ export default function Calendar() {
                     <div className="modal-backdrop fade show"></div>
                 </>
             )}
+
+            
         </Fragment>
     )
 }

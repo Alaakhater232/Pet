@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import { Fragment } from 'react'
 import { FaUserDoctor } from "react-icons/fa6";
 import { ImLocation2 } from "react-icons/im";
 import { FaMobileAlt } from "react-icons/fa";
@@ -8,9 +8,14 @@ import { HiMiniUserGroup } from "react-icons/hi2";
 import { TbEdit } from "react-icons/tb";
 import AppointmentsModal from './AppointmentsModal';
 import Editclinicmodal from '../EditClinicModal';
+import { MdDelete } from "react-icons/md";
 
 
-export default function Clinic({name, Specialization, address, phone, email, status }) {
+
+//get clinics from firebase 
+export default function Clinic({ clinic, onDelete }) {
+    const { id, name, Specialization, address, phone, email, status } = clinic
+
     return (
         <Fragment>
             <div className="clinic p-4 col-5" style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', borderRadius: '8px' }} >
@@ -29,15 +34,23 @@ export default function Clinic({name, Specialization, address, phone, email, sta
                 <div className="clinic-body mt-3">
                     <div className="address d-flex align-items-center gap-2 mb-3">
                         <ImLocation2 />
-                        <p className='mb-0'>{address}</p>
+                        <p className='mb-0'>{address?.governorate} - {address?.city}</p>
                     </div>
                     <div className="phone d-flex align-items-center gap-2 mb-3">
                         <FaMobileAlt />
                         <p className='mb-0'>{phone}</p>
                     </div>
-                    <div className="email d-flex align-items-center gap-2 mb-3">
-                        <MdOutlineMail />
-                        <p className='mb-0'>{email}</p>
+                    <div className="d-flex justify-content-between align-items-center">
+                        <div className="email d-flex align-items-center gap-2 ">
+                            <MdOutlineMail />
+                            <p className='mb-0'>{email}</p>
+                        </div>
+                        <button
+                            className="btn border-0 p-0 "
+                            onClick={() => onDelete(id)}
+                        >
+                            <MdDelete cursor={"pointer"} size={25} className='text-danger' />
+                        </button>
                     </div>
 
                 </div>
@@ -46,7 +59,7 @@ export default function Clinic({name, Specialization, address, phone, email, sta
                     <div className="option d-flex align-items-center justify-content-between gap-1">
                         <IoTimer />
                         <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target="#appointments">Appointments</button>
-                        <AppointmentsModal />
+                        <AppointmentsModal clinic={clinic} />
                     </div>
                     <div className="option d-flex align-items-center justify-content-between gap-1">
                         <HiMiniUserGroup />
@@ -56,7 +69,7 @@ export default function Clinic({name, Specialization, address, phone, email, sta
                     <div className="option d-flex align-items-center justify-content-between gap-1">
                         <TbEdit />
                         <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target="#editclinic">Edit data</button>
-                        <Editclinicmodal />
+                        <Editclinicmodal clinic={clinic} />
                     </div>
 
                 </div>
