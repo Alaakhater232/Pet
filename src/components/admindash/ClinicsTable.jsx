@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
-import Editclinic from './EditClinic';
-import Editclinicmodal from '../EditClinicModal';
+import EditClinicModal from '../EditClinicModal';
 
 
 
 export default function ClinicsTable() {
+
     return (
         <Fragment>
             <div className="patient-table mt-4 bg-white shadow rounded w-100">
@@ -23,8 +23,12 @@ export default function ClinicsTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className="px-4 py-3">-</td>
+
+
+
+                        {clinics.map((clinic) => (
+                        <tr key={clinic.id}>
+                            <td className="px-4 py-3">{}</td>
                             <td className="px-4 py-3">-</td>
                             <td className="px-4 py-3">-</td>
                             <td className="px-4 py-3">-</td>
@@ -34,10 +38,11 @@ export default function ClinicsTable() {
                                 <button type="button" className="btn border-0 p-0 me-2" data-bs-toggle="modal" data-bs-target="#editclinic">
                                     <TbEdit size={20} className='' />
                                 </button>
-                                <Editclinicmodal />
+                                <EditClinicModal clinic={clinic} />
                                 <MdDelete cursor={"pointer"} size={20} className='text-danger' />
                             </td>
                         </tr>
+                        ))}
 
                     </tbody>
                 </table>

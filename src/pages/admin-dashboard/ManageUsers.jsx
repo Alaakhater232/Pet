@@ -1,17 +1,19 @@
-import React, { Fragment, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { FaUsers } from "react-icons/fa6";
 import { FaUserDoctor } from "react-icons/fa6";
 import DoctorsTable from '../../components/admindash/DoctorsTable';
 import { RiAddLine } from "react-icons/ri";
-import AddDoctor from '../../components/admindash/AddDoctor';
-import AddClient from '../../components/admindash/AddClient';
 import Clienttable from '../../components/admindash/ClientsTable';
+import AddClientModal from '../../components/admindash/AddClientModal';
+import AddDoctorModal from '../../components/admindash/AddDoctorModal';
+
 
 // import { db } from '../../firebase/firebaseConfig'
 
+
 export default function ManageUsers() {
-    const [activeTab, setActiveTab] = useState('doctors');
-    // console.log("Firestore ready:", db);
+    const [activeTab, setActiveTab] = useState('clients');
+
 
     return (
         <Fragment>
@@ -55,7 +57,7 @@ export default function ManageUsers() {
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
                         <button className='custom-button d-flex align-items-center fw-bold'  data-bs-toggle="modal" data-bs-target="#staticBackdrop" > <RiAddLine size={20} />{activeTab === 'doctors' ? 'Add doctor' : 'Add client'}</button>
                     </div>
-                    {activeTab ==='doctors' ? <AddDoctor /> : <AddClient />}
+                    {activeTab ==='doctors' ? <AddDoctorModal /> : <AddClientModal />}
                     <div style={{ marginTop: '30px' }}>
                         {activeTab === 'doctors' && <DoctorsTable />}
                         {activeTab === 'clients' && <Clienttable />}

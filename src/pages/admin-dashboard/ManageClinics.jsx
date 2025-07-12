@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import Statistic from '../../components/admindash/statistic'
 import { FaUserDoctor } from "react-icons/fa6";
 import { FaUsers } from "react-icons/fa6";
@@ -9,7 +9,9 @@ import ClinicsTable from '../../components/admindash/ClinicsTable';
 import { RiAddLine } from "react-icons/ri";
 import AddClinic from '../../components/AddClinicModal';
 
+
 export default function ManageClinics() {
+        const [clinics, setClinics] = useState([]);
 
     const statistics = [
         { title: 'Total clinics', count: '100', icon: <FaClinicMedical size={40} /> },
@@ -34,7 +36,7 @@ export default function ManageClinics() {
                     <button className='custom-button d-flex align-items-center fw-bold' data-bs-toggle="modal" data-bs-target="#addclinic" > <RiAddLine size={20} /> Add clinic</button>
                 </div>
                 <AddClinic />
-                <ClinicsTable />
+                <ClinicsTable clinic={clinic} />
             </div>
         </Fragment>
     )

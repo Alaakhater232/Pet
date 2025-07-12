@@ -9,13 +9,6 @@ import { BeatLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 
 export default function Manageclinics() {
-  // const clinics = [
-    //   { id: 1, name: "Clinic 1", Specialization: "Dermatology", address: "123 Main St, City", phone: "+1 (123) 456-7890", email: "lT8i9@example.com", status: "Active" },
-    //   { id: 1, name: "Clinic 1", Specialization: "Dermatology", address: "123 Main St, City", phone: "+1 (123) 456-7890", email: "lT8i9@example.com", status: "Active" },
-    //   { id: 1, name: "Clinic 1", Specialization: "Dermatology", address: "123 Main St, City", phone: "+1 (123) 456-7890", email: "lT8i9@example.com", status: "Active" },
-    //   { id: 1, name: "Clinic 1", Specialization: "Dermatology", address: "123 Main St, City", phone: "+1 (123) 456-7890", email: "lT8i9@example.com", status: "Active" },
-    // ]
-    
   const [loading, setLoading] = useState(true);
   const [clinics, setClinics] = useState([]);
 
@@ -45,11 +38,11 @@ export default function Manageclinics() {
     try{
       await deleteDoc(doc(db, 'clinics', id));
       setClinics(clinics => clinics.filter(clinic => clinic.id !== id))
-      toast.success('Clinic deleted successfully');
+      toast.success('Clinic deleted successfully', { autoClose: 3000 });
+      window.location.reload();
     }catch(err) {
-      console.log(err)
-      toast.error('Failed to delete clinic');
-    }
+      toast.error("Failed to delete clinic, error:" + err.message, { autoClose: 3000 });
+    } 
   }
   return (
     <Fragment>

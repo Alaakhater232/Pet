@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 
-export default function Editclinicmodal({ clinic }) {
+export default function EditClinicModal({ clinic }) {
   const { id, name: defaultName, specialization: defaultSpec, address: defaultAddress, phone: defaultPhone, email: defaultEmail, status: defaultStatus, workingHours: defaultHours } = clinic;
   const [day, setDay] = useState('');
   const [openTime, setOpenTime] = useState('');
@@ -40,7 +40,7 @@ export default function Editclinicmodal({ clinic }) {
   //edit clinic 
   const handleSave = async () => {
     try {
-      const clinicRef  = doc(db, 'clinics', clinic.id);
+      const clinicRef  = doc(db, 'clinics', id);
       await updateDoc(clinicRef , {
         id,
         name,
@@ -51,11 +51,14 @@ export default function Editclinicmodal({ clinic }) {
         status,
         workingHours
       })
-      toast.success('Clinic updated successfully');
-      document.getElementById('close-btn-edit').click();
+      toast.success('Clinic updated successfully', { autoClose: 3000 });
+      setTimeout(() => {
+        document.getElementById('close-btn-edit').click();
+        window.location.reload();
+      }, 3000);
 
     } catch (error) {
-      toast.error("Failed to update clinic, error:" + error.message);
+      toast.error("Failed to update clinic, error:" + error.message, { autoClose: 3000 });
     }
   };
 

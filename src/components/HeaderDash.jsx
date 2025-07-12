@@ -10,7 +10,7 @@ export default function HeaderDash({toggleSidebar}) {
         <Fragment>
             <header className="header-dash">
                 <nav className="navbar background py-3 px-4 gap-140 align-items-center position-fixed top-0 start-0 end-0 z-1 " style={{ height: '100px', borderBottom: '1px solid #D9A741' }}>
-                    <div className="d-flex justify-content-center align-items-center">
+                    <div className="">
                         <img src={logo} alt="logo" style={{ width: '80px', height: '80px'}} />
                     </div>
                     <div className="container-fluid me-0 flex-1 " >

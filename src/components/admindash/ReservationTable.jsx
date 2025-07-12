@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
-import EditDoctor from './EditDoctor';
 import EditReservation from './EditReservation';
 export default function ReservationTable() {
     return (
