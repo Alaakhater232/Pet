@@ -8,11 +8,8 @@ import AddClientModal from '../../components/admindash/AddClientModal';
 import AddDoctorModal from '../../components/admindash/AddDoctorModal';
 
 
-// import { db } from '../../firebase/firebaseConfig'
-
-
 export default function ManageUsers() {
-    const [activeTab, setActiveTab] = useState('clients');
+    const [activeTab, setActiveTab] = useState('doctors');
 
 
     return (

@@ -7,16 +7,20 @@ import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import { BeatLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
-
+ 
 export default function Manageclinics() {
   const [loading, setLoading] = useState(true);
   const [clinics, setClinics] = useState([]);
 
-  // Fetch clinics from Firebase
+  // const [showConfirm, setShowConfirm] = useState(false);
+
+
+  // get clinics from Firebase
   useEffect(() => {
     const getClinics = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'clinics'));
+        const clinicsRef = collection(db, 'clinics');
+        const querySnapshot = await getDocs(clinicsRef);
         const clinicsData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
@@ -39,7 +43,7 @@ export default function Manageclinics() {
       await deleteDoc(doc(db, 'clinics', id));
       setClinics(clinics => clinics.filter(clinic => clinic.id !== id))
       toast.success('Clinic deleted successfully', { autoClose: 3000 });
-      window.location.reload();
+      // window.location.reload();
     }catch(err) {
       toast.error("Failed to delete clinic, error:" + err.message, { autoClose: 3000 });
     } 
@@ -79,6 +83,7 @@ export default function Manageclinics() {
                 onDelete = {handleDeleteClinic}
               />
             ))}
+            
           </div>
         </div>
       )}

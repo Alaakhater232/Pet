@@ -7,7 +7,6 @@ import HelloDoctor from './pages/doctordashboard/HelloDoctor'
 import ManageUsers from './pages/admin-dashboard/ManageUsers'
 import HelloAdmin from './pages/admin-dashboard/HelloAdmin'
 import Overview from './pages/admin-dashboard/Overview'
-import ManageClinics from './pages/admin-dashboard/ManageClinics'
 import Reservations from './pages/admin-dashboard/Reservations'
 import AdminDashboard from './pages/admin-dashboard/AdminPage'
 import Manageclinics from './pages/doctordashboard/ManageClinics'
@@ -15,6 +14,7 @@ import Manageprofile from './pages/doctordashboard/ManageProfile'
 import Manageclients from './pages/doctordashboard/ManageClients'
 import Manageappointments from './pages/doctordashboard/ManageAppointments'
 import { ToastContainer } from 'react-toastify'
+import ManageClinics from './pages/admin-dashboard/ManageClinics'
 
 function App() {
   return (

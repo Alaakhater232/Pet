@@ -48,15 +48,15 @@ export default function AddClientModal() {
                             <form action="#">
                                 <div className="clinic-name d-flex align-items-center gap-3 mb-3">
                                     <label htmlFor="clinic-name" className="form-label">Name</label>
-                                    <input type="text" className="form-control w-75" id="clinic-name" value={name} onChange={(e) => setName(e.target.value)} />
+                                    <input type="text" className="form-control w-75" id="clinic-name" placeholder="Enter Client Name" value={name} onChange={(e) => setName(e.target.value)} />
                                 </div>
                                 <div className="clinic-address d-flex align-items-center gap-3 mb-3">
                                     <label htmlFor="clinic-address" className="form-label">Email</label>
-                                    <input type="email" className="form-control w-75" id="clinic-address" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                    <input type="email" className="form-control w-75" id="clinic-address" placeholder="Enter Client Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                                 </div>
                                 <div className="clinic-address d-flex align-items-center gap-3 mb-3">
                                     <label htmlFor="clinic-address" className="form-label">Phone</label>
-                                    <input type="tel" className="form-control w-75" id="clinic-address" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                                    <input type="tel" className="form-control w-75" id="clinic-address" placeholder="Enter Client Phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
                                 </div>
                                 <div className="gender mb-2 ">
                                     <p className='fw-bold mb-2'>Choose Gander</p>

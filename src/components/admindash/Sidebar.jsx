@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react'
+import { Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
 import { FaUsers } from "react-icons/fa6";
 import { FaClinicMedical } from "react-icons/fa";
 import { FaCalendarAlt } from "react-icons/fa";
 import { TbLogout2 } from "react-icons/tb";
- import { GrOverview } from "react-icons/gr";
+import { GrOverview } from "react-icons/gr";
 
 export default function Sidebar( { isOpen }) {
     return (

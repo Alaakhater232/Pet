@@ -3,14 +3,14 @@ import Address from '../Address'
 import { toast } from 'react-toastify';
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
-
+import specializations from '../../spcializations/spcializations.json'
 export default function AddDoctorModal() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [specialization, setSpecialization] = useState('');
     const [gender, setGender] = useState('');
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState('active');
 
     const handleAddDoctor = async () => {
         //validate form fields
@@ -41,7 +41,7 @@ export default function AddDoctorModal() {
                 window.location.reload();
             }, 3000);
         } catch (error) {
-            toast.error("Failed to add doctor, error:" + error.message,{ autoClose: 3000 });
+            toast.error("Failed to add doctor, error:" + error.message, { autoClose: 3000 });
         }
     }
     return (
@@ -57,19 +57,23 @@ export default function AddDoctorModal() {
                             <form action="#">
                                 <div className="clinic-name d-flex align-items-center gap-3 mb-3">
                                     <label htmlFor="clinic-name" className="form-label">Full Name</label>
-                                    <input type="text" className="form-control w-75" id="clinic-name" value={name} onChange={(e) => setName(e.target.value)} />
+                                    <input type="text" className="form-control w-75" id="clinic-name" placeholder="Enter Full Name" value={name} onChange={(e) => setName(e.target.value)} />
                                 </div>
                                 <div className="clinic-address d-flex align-items-center gap-3 mb-3">
                                     <label htmlFor="clinic-address" className="form-label">Email</label>
-                                    <input type="email" className="form-control w-75" id="clinic-address" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                    <input type="email" className="form-control w-75" id="clinic-address" placeholder="Enter Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                                 </div>
                                 <div className="clinic-address d-flex align-items-center gap-3 mb-3">
                                     <label htmlFor="clinic-address" className="form-label">Phone</label>
-                                    <input type="tel" className="form-control w-75" id="clinic-address" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                                    <input type="tel" className="form-control w-75" id="clinic-address" placeholder="Enter Phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
                                 </div>
                                 <div className="spcialization d-flex align-items-center gap-3 mb-3">
-                                    <label htmlFor="specialization" className="form-label">Specialization</label>
-                                    <input type="text" className="form-control w-75" id="specialization" value={specialization} onChange={(e) => setSpecialization(e.target.value)} />
+                                    <label className="form-label">Specialization</label>
+                                    <select className="form-select w-50" onChange={(e) => setSpecialization(e.target.value)}>
+                                        {specializations.map((spec, index) => (
+                                            <option value={spec.name} key={index}>{spec.name}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div className="gender mb-2 ">
                                     <p className='fw-bold mb-2'>Choose Gander</p>

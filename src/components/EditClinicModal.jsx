@@ -4,9 +4,9 @@ import Adress from './Address';
 import { toast } from 'react-toastify';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
-
-export default function EditClinicModal({ clinic }) {
-  const { id, name: defaultName, specialization: defaultSpec, address: defaultAddress, phone: defaultPhone, email: defaultEmail, status: defaultStatus, workingHours: defaultHours } = clinic;
+import specializations from '../spcializations/spcializations.json';
+export default function EditClinicModal({ clinic, modalId }) {
+  const { name: defaultName, specialization: defaultSpec, address: defaultAddress, phone: defaultPhone, email: defaultEmail, status: defaultStatus, workingHours: defaultHours } = clinic;
   const [day, setDay] = useState('');
   const [openTime, setOpenTime] = useState('');
   const [closeTime, setCloseTime] = useState('');
@@ -40,9 +40,8 @@ export default function EditClinicModal({ clinic }) {
   //edit clinic 
   const handleSave = async () => {
     try {
-      const clinicRef  = doc(db, 'clinics', id);
-      await updateDoc(clinicRef , {
-        id,
+      const clinicRef = doc(db, 'clinics', modalId);
+      await updateDoc(clinicRef, {
         name,
         specialization,
         address,
@@ -64,7 +63,7 @@ export default function EditClinicModal({ clinic }) {
 
   return (
     <Fragment>
-      <div className="modal fade" id="editclinic" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div className="modal fade" id={`editclinic-${modalId}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
@@ -76,25 +75,29 @@ export default function EditClinicModal({ clinic }) {
                 {/* Clinic Info */}
                 <div className="clinic-name d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Clinic Name</label>
-                  <input type="text" className="form-control w-75" value={name} onChange={(e) => setName(e.target.value)}/>
+                  <input type="text" className="form-control w-75" placeholder='Enter Clinic Name' value={name} onChange={(e) => setName(e.target.value)} />
                 </div>
 
-                <div className="spcialization d-flex align-items-center gap-3 mb-3">
-                  <label className="form-label">Specialization</label>
-                  <input type="text" className="form-control w-75" value={specialization} onChange={(e) => setSpecialization(e.target.value)}/>
-                </div>
-                <Adress onAddressChange={setAddress} />
 
                 <div className="clinic-phone d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Phone</label>
-                  <input type="tel" className="form-control w-75" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                  <input type="tel" className="form-control w-75" placeholder='Enter Clinic Phone' value={phone} onChange={(e) => setPhone(e.target.value)} />
                 </div>
 
                 <div className="clinic-email d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Email</label>
-                  <input type="email" className="form-control w-75" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <input type="email" className="form-control w-75" placeholder='Enter Clinic Email' value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
 
+                <div className="spcialization d-flex align-items-center gap-3 mb-3">
+                  <label className="form-label">Specialization</label>
+                  <select className="form-select w-50" onChange={(e) => setSpecialization(e.target.value)}>
+                    {specializations.map((spec, index) => (
+                      <option value={spec.name} key={index}>{spec.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <Adress onAddressChange={setAddress} />
                 <hr />
 
                 {/* Working Hours */}
@@ -136,11 +139,11 @@ export default function EditClinicModal({ clinic }) {
                 <div className="status">
                   <p className='fw-bold mb-2'>Choose Status</p>
                   <div className="form-check form-check-inline">
-                    <input type="radio" name="status" id="active" className="form-check-input" checked={status === 'active'} onChange={(e) => setStatus(e.target.value)} />
+                    <input type="radio" name="status" id="active" className="form-check-input" value={'active'} checked={status === 'active'} onChange={(e) => setStatus(e.target.value)} />
                     <label htmlFor="active" className="form-check-label" >Active</label>
                   </div>
                   <div className="form-check form-check-inline">
-                    <input type="radio" name="status" id="inactive" className="form-check-input" checked={status === 'inactive'} onChange={(e) => setStatus(e.target.value)} />
+                    <input type="radio" name="status" id="inactive" className="form-check-input" value={'inactive'} checked={status === 'inactive'} onChange={(e) => setStatus(e.target.value)} />
                     <label htmlFor="inactive" className="form-check-label">Inactive</label>
                   </div>
                 </div>
@@ -149,7 +152,7 @@ export default function EditClinicModal({ clinic }) {
 
             <div className="modal-footer d-flex justify-content-end gap-2">
               <button type="button" className="btn btn-danger" id='close-btn-edit' data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
-              <button type="button" className="custom-button" style={{ width: '100px' }} onClick={handleSave}>Save</button>
+              <button type="button" className="custom-button" style={{ width: '100px' }} onClick={handleSave}>Update</button>
             </div>
           </div>
         </div>

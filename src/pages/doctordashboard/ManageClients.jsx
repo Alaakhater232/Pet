@@ -1,7 +1,19 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
+import { BiSearchAlt2 } from "react-icons/bi";
 
 export default function Manageclients() {
+  // const [searchTerm, setSearchTerm] = useState('');
+  // const [statusFilter, setStatusFilter] = useState('all');
+
+  // const filteredClients = clients.filter(client => {
+  //   const nameMatch = client.name.toLowerCase().includes(searchTerm.toLowerCase());
+  //   const emailMatch = client.email.toLowerCase().includes(searchTerm.toLowerCase());
+  //   const specializationMatch = client.specialization.toLowerCase().includes(searchTerm.toLowerCase());
+  //   // const doctorMatch = clinic.responsibleDoctor.toLowerCase().includes(searchTerm.toLowerCase());
+  //   const statusMatch = statusFilter === 'all' || client.status === statusFilter;
+  //   return (nameMatch || emailMatch || specializationMatch) && statusMatch;
+  // })
   return (
     <Fragment>
       <nav aria-label="breadcrumb" className='container-fluid d-flex align-items-center justify-content-between ' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', marginTop: '20px', padding: '10px 40px', borderRadius: '8px' }} >
@@ -12,6 +24,34 @@ export default function Manageclients() {
           <li className="breadcrumb-item active" aria-current="page">Clients</li>
         </ol>
       </nav>
+
+
+
+
+
+      {/* value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} */}
+      <div className="d-flex justify-content-between align-items-center my-3">
+        <div className="search-box w-50 position-relative">
+          <input
+            className="form-control pe-5"
+            type="text"
+            placeholder="Search by name, email, or responsible doctor"
+
+          />
+          <BiSearchAlt2
+            size={20}
+            className="position-absolute"
+            style={{ top: '50%', right: '15px', transform: 'translateY(-50%)', color: '#888' }}
+          />
+        </div>
+        {/* value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} */}
+        <select className="form-select w-25" >
+          <option value="all" >All</option>
+          <option value="active" >active</option>
+          <option value="inactive" >inactive</option>
+        </select>
+      </div>
       <div className="patient-table mt-4 bg-white shadow rounded w-100">
         <table class="table">
           <thead className="table-light py-3">

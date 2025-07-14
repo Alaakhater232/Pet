@@ -3,10 +3,10 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { Fragment, useState } from 'react'
 import { toast } from 'react-toastify';
 import { db } from '../../firebase/firebaseConfig';
- 
+import specializations from '../../spcializations/spcializations.json';
 export default function EditDoctorModal({ doctor, modalId }) {
     if (!doctor) return null;
-    const { name: defaultName, email: defaultEmail, phone: defaultPhone, specialization: defaultSpec, gender: defaultGender, status: defaultStatus } = doctor;  
+    const { name: defaultName, email: defaultEmail, phone: defaultPhone, specialization: defaultSpec, gender: defaultGender, status: defaultStatus } = doctor;
     const [name, setName] = useState(defaultName);
     const [email, setEmail] = useState(defaultEmail);
     const [phone, setPhone] = useState(defaultPhone);
@@ -23,14 +23,14 @@ export default function EditDoctorModal({ doctor, modalId }) {
             toast.error('Please fill in all the required fields', { autoClose: 3000 });
             return
         }
-        try{
+        try {
             const docRef = doc(db, 'doctors', doctor.id);
             await updateDoc(docRef, {
                 name,
                 email,
                 phone,
                 specialization,
-                gender, 
+                gender,
                 status,
             })
             toast.success('Doctor updated successfully', { autoClose: 3000 });
@@ -38,13 +38,13 @@ export default function EditDoctorModal({ doctor, modalId }) {
                 document.getElementById('close-btn-edit').click();
                 window.location.reload();
             }, 3000);
-        }catch(error){
+        } catch (error) {
             toast.error("Failed to update clinic, error:" + error.message, { autoClose: 3000 });
         }
     }
     return (
         <Fragment>
-            <div  className="modal fade" style={{ marginTop: '70px' }} id={`editdoctor-${modalId}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div className="modal fade" style={{ marginTop: '70px' }} id={`editdoctor-${modalId}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -55,19 +55,23 @@ export default function EditDoctorModal({ doctor, modalId }) {
                             <form action="#">
                                 <div className="clinic-name d-flex align-items-center gap-3 mb-3">
                                     <label htmlFor="clinic-name" className="form-label">Full Name</label>
-                                    <input type="text" className="form-control w-75" id="clinic-name" value={name} onChange={(e) => setName(e.target.value)} />
+                                    <input type="text" className="form-control w-75" id="clinic-name" placeholder="Enter Full name" value={name} onChange={(e) => setName(e.target.value)} />
                                 </div>
                                 <div className="clinic-address d-flex align-items-center gap-3 mb-3">
                                     <label htmlFor="clinic-address" className="form-label">Email</label>
-                                    <input type="email" className="form-control w-75" id="clinic-address" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                    <input type="email" className="form-control w-75" id="clinic-address" placeholder="Enter Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                                 </div>
                                 <div className="clinic-address d-flex align-items-center gap-3 mb-3">
                                     <label htmlFor="clinic-address" className="form-label">Phone</label>
-                                    <input type="tel" className="form-control w-75" id="clinic-address" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                                    <input type="tel" className="form-control w-75" id="clinic-address" placeholder="Enter Phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
                                 </div>
                                 <div className="spcialization d-flex align-items-center gap-3 mb-3">
-                                    <label htmlFor="specialization" className="form-label">Specialization</label>
-                                    <input type="text" className="form-control w-75" id="specialization" value={specialization} onChange={(e) => setSpecialization(e.target.value)} />
+                                    <label className="form-label">Specialization</label>
+                                    <select className="form-select w-50" onChange={(e) => setSpecialization(e.target.value)}>
+                                        {specializations.map((spec, index) => (
+                                            <option value={spec.name} key={index}>{spec.name}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div className="gender mb-2 ">
                                     <p className='fw-bold mb-2'>Choose Gander</p>
@@ -95,8 +99,8 @@ export default function EditDoctorModal({ doctor, modalId }) {
                             </form>
                         </div>
                         <div className="modal-footer d-flex gap-3">
-                            <button type="button" className="btn btn-danger" id='close-btn-edit' data-bs-dismiss="modal" style={{width:'100px'}}>Close</button>
-                            <button type="button" className="custom-button" style={{width:'100px'}} onClick={handleSave}>Save</button>
+                            <button type="button" className="btn btn-danger" id='close-btn-edit' data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
+                            <button type="button" className="custom-button" style={{ width: '100px' }} onClick={handleSave}>Save</button>
                         </div>
 
                     </div>

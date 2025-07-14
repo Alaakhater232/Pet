@@ -1,0 +1,9 @@
+[
+    { "id": 1, "name": "Veterinary Surgery" },
+    { "id": 2, "name": "Veterinary Dentistry" },
+    { "id": 3, "name": "Vaccinations & Immunizations" },
+    { "id": 4, "name": "Emergency Veterinary" },
+    { "id": 5, "name": "Pet Grooming" },
+    { "id": 6, "name": "Lab Tests & Radiology" },
+    { "id": 7, "name": "Veterinary Dermatology" }
+]

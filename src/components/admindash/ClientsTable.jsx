@@ -7,12 +7,20 @@ import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import EditClientModal from './EditClientModal';
 
+import { BiSearchAlt2 } from "react-icons/bi";
+import ConfirmModal from '../ConfirmModal';
 
 
 
 export default function Clienttable() {
     const [clients, setClients] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [genderFilter, setGenderFilter] = useState('all');
+
+
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [selectedClientId, setSelectedClientId] = useState(null);
 
 
     //get clients from firestore
@@ -47,8 +55,37 @@ export default function Clienttable() {
         }
     }
 
+    // filter clients by name and email
+    const filteredClients = clients.filter(client => {
+        const nameMatch = client.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const emailMatch = client.email.toLowerCase().includes(searchTerm.toLowerCase());
+        const genderMatch = genderFilter === 'all' || client.gender === genderFilter;
+        return (nameMatch || emailMatch)  && genderMatch;
+    });
+
     return (
         <Fragment>
+            <div className="d-flex justify-content-between align-items-center my-3">
+                <div className="search-box w-50 position-relative">
+                    <input
+                        className="form-control pe-5"
+                        type="text"
+                        placeholder="Search by name, email, or specialization"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <BiSearchAlt2
+                        size={20}
+                        className="position-absolute"
+                        style={{ top: '50%', right: '15px', transform: 'translateY(-50%)', color: '#888' }}
+                    />
+                </div>
+                <select className="form-select w-25" value={genderFilter} onChange={(e) => setGenderFilter(e.target.value)}>
+                    <option value="all" >All</option>
+                    <option value="male" >Male</option>
+                    <option value="female" >Female</option>
+                </select>
+            </div>
             {loading ? <h3 className='text-center mt-5'><BeatLoader color='#D9A741' /></h3> : clients.length === 0 ? <h3 className='text-center mt-5'>No clients found</h3> : <div className="patient-table mt-4 bg-white shadow rounded w-100">
                 <table class="table">
                     <thead className="table-light py-3">
@@ -61,7 +98,7 @@ export default function Clienttable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {clients?.map(client => (
+                        {filteredClients?.map(client => (
                             <tr key={client.id}>
                                 <td className="px-4 py-3">{client.name}</td>
                                 <td className="px-4 py-3">{client.email}</td>
@@ -73,8 +110,12 @@ export default function Clienttable() {
                                         <TbEdit size={20} className='' />
                                     </button>
                                     <EditClientModal client={client} clientId={client.id} />
-                                    <MdDelete cursor={"pointer"} size={20} className='text-danger' onClick={() => handleDeleteClient(client.id)}  />
+                                    <MdDelete cursor={"pointer"} size={20} className='text-danger' onClick={() => {
+                                        setShowConfirm(true);
+                                        setSelectedClientId(client.id);
+                                    }} />
                                 </td>
+                                {showConfirm && (<ConfirmModal onDelete={() => handleDeleteClient(selectedClientId)} setShowConfirm={setShowConfirm} selectedId={selectedClientId} whatDelete="client" />)}
                             </tr>
                         ))}
 

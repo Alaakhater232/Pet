@@ -81,3 +81,13 @@ ul {
 .sidebar.expanded svg {
   font-size: 24px;
 } */
+
+
+::placeholder {
+  opacity: 0.4 !important;
+  color: #000 !important;
+}
+
+input {
+  font-size: medium !important;
+}

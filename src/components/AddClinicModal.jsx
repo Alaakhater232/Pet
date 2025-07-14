@@ -6,6 +6,7 @@ import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 import { toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import specializations from '../spcializations/spcializations.json';
 
 export default function AddClinicModal() {
   const [day, setDay] = useState('');
@@ -20,7 +21,7 @@ export default function AddClinicModal() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('active');
   const [address, setAddress] = useState({ governorate: '', city: '' });
-  
+
 
 
 
@@ -43,13 +44,7 @@ export default function AddClinicModal() {
   // Add clinic data to Firebase
   const handleAddClinic = async () => {
     // Validate form fields
-    if (!name.trim() ||
-      !specialization.trim() ||
-      !phone.trim() ||
-      !email.trim() ||
-      !address.governorate ||
-      !address.city ||
-      workingHours.length === 0) {
+    if (!name.trim() || !specialization.trim() || !phone.trim() || !email.trim() || !address.governorate || !address.city || workingHours.length === 0) {
       toast.error('Please fill in all the required fields', {
         position: "top-right",
         autoClose: 5000,
@@ -90,13 +85,13 @@ export default function AddClinicModal() {
     try {
       // Add clinic data to Firebase 
       const clinicData = {
-        name: name,
-        specialization: specialization,
-        phone: phone,
-        email: email,
-        status: status,
-        workingHours: workingHours,
-        address: address,
+        name,
+        specialization,
+        phone,
+        email,
+        status,
+        workingHours,
+        address,
         createdAt: Timestamp.now(),
       };
       await addDoc(collection(db, 'clinics'), clinicData);
@@ -111,19 +106,18 @@ export default function AddClinicModal() {
         theme: "light",
         transition: Slide,
       });
-      setTimeout(() => {
-        document.getElementById('close-btn').click();
-        window.location.reload();
-      }, 3000);
-      // window.location.reload();
-      // Reset form fields
       setName('');
       setSpecialization('');
       setPhone('');
       setEmail('');
       setStatus('active');
       setWorkingHours([]);
-      document.getElementById('close-btn').click();
+      setTimeout(() => {
+        document.getElementById('close-btn').click();
+        window.location.reload();
+      }, 3000);
+      // window.location.reload();
+      // Reset form fields
     } catch (error) {
       console.log(error);
     }
@@ -143,23 +137,26 @@ export default function AddClinicModal() {
                 {/* Clinic Info */}
                 <div className="clinic-name d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Clinic Name</label>
-                  <input type="text" className="form-control w-75" value={name} onChange={(e) => setName(e.target.value)} />
+                  <input type="text" className="form-control w-75" placeholder='Enter Clinic Name' value={name} onChange={(e) => setName(e.target.value)} />
                 </div>
-
-                <div className="spcialization d-flex align-items-center gap-3 mb-3">
-                  <label className="form-label">Specialization</label>
-                  <input type="text" className="form-control w-75" value={specialization} onChange={(e) => setSpecialization(e.target.value)} />
-                </div>
-                <Address onAddressChange={setAddress} />
                 <div className="clinic-phone d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Phone</label>
-                  <input type="tel" className="form-control w-75" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                  <input type="tel" className="form-control w-75" placeholder='Enter Clinic Phone' value={phone} onChange={(e) => setPhone(e.target.value)} />
                 </div>
 
                 <div className="clinic-email d-flex align-items-center gap-3 mb-3">
                   <label className="form-label">Email</label>
-                  <input type="email" className="form-control w-75" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <input type="email" className="form-control w-75" placeholder='Enter Clinic Email' value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
+                <div className="spcialization d-flex align-items-center gap-3 mb-3">
+                  <label className="form-label">Specialization</label>
+                  <select className="form-select w-50" onChange={(e) => setSpecialization(e.target.value)}>
+                    {specializations.map((spec, index) => (
+                      <option value={spec.name} key={index}>{spec.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <Address onAddressChange={setAddress} />
 
                 <hr />
 

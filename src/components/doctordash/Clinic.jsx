@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { FaUserDoctor } from "react-icons/fa6";
 import { ImLocation2 } from "react-icons/im";
 import { FaMobileAlt } from "react-icons/fa";
@@ -9,12 +9,18 @@ import { TbEdit } from "react-icons/tb";
 import AppointmentsModal from './AppointmentsModal';
 import Editclinicmodal from '../EditClinicModal';
 import { MdDelete } from "react-icons/md";
+import ConfirmModal from '../ConfirmModal';
 
 
 
 //get clinics from firebase 
 export default function Clinic({ clinic, onDelete }) {
-    const { id, name, Specialization, address, phone, email, status } = clinic
+    const { name, Specialization, address, phone, email, status } = clinic
+
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [selectedClinicId, setSelectedClinicId] = useState(null);
+
+
 
     return (
         <Fragment>
@@ -28,7 +34,7 @@ export default function Clinic({ clinic, onDelete }) {
                         </div>
                     </div>
                     <div className="right">
-                        <span style={{ backgroundColor: 'green', color: '#fff', fontSize: '14px', padding: '5px 10px', borderRadius: '4px' }}>{status}</span>
+                        <span style={{ color: 'white', backgroundColor: clinic.status === 'active' ? '#28a745  ' : '#6c757d   ', fontSize: '14px' }} className='px-3 py-1 rounded rounded-5 '>{status}</span>
                     </div>
                 </div>
                 <div className="clinic-body mt-3">
@@ -47,11 +53,17 @@ export default function Clinic({ clinic, onDelete }) {
                         </div>
                         <button
                             className="btn border-0 p-0 "
-                            onClick={() => onDelete(id)}
+                            onClick={() => {
+                                setSelectedClinicId(clinic.id);
+                                setShowConfirm(true);
+                            }}
                         >
                             <MdDelete cursor={"pointer"} size={25} className='text-danger' />
                         </button>
                     </div>
+                    {showConfirm && (
+                        <ConfirmModal onDelete={() => onDelete(selectedClinicId)} setShowConfirm={setShowConfirm} setSelectedClinicId={setSelectedClinicId} whatDelete={"clinic"} />
+                    )}
 
                 </div>
                 <hr />
@@ -67,9 +79,9 @@ export default function Clinic({ clinic, onDelete }) {
 
                     </div>
                     <div className="option d-flex align-items-center justify-content-between gap-1">
-                        <TbEdit />
-                        <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target="#editclinic">Edit data</button>
-                        <Editclinicmodal clinic={clinic} />
+                        
+                        <button type="button" className="btn border-0 p-0 d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target={`#editclinic-${clinic.id}`}><TbEdit />Edit data</button>
+                        <Editclinicmodal clinic={clinic} modalId={clinic.id} />
                     </div>
 
                 </div>

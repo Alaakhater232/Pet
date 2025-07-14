@@ -51,15 +51,15 @@ export default function EditClientModal({ client, clientId }) {
                                 <div className="doctor-info ">
                                     <div className="doctor-name d-flex align-items-center gap-3 mb-3  ">
                                         <label htmlFor="doctor-name" className="form-label mb-0">Name</label>
-                                        <input type="text" className="form-control w-50" id="doctor-name" value={name} onChange={(e) => setName(e.target.value)} />
+                                        <input type="text" className="form-control w-50" id="doctor-name" placeholder='Enter Client Name' value={name} onChange={(e) => setName(e.target.value)} />
                                     </div>
                                     <div className="doctor-email d-flex align-items-center gap-3 mb-3">
                                         <label htmlFor="doctor-email" className="form-label mb-0">Email</label>
-                                        <input type="email" className="form-control w-50" id="doctor-email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                        <input type="email" className="form-control w-50" id="doctor-email" placeholder='Enter Client Email' value={email} onChange={(e) => setEmail(e.target.value)} />
                                     </div>
                                     <div className="doctor-phone d-flex align-items-center gap-3 mb-3">
                                         <label htmlFor="doctor-phone" className="form-label mb-0">Phone</label>
-                                        <input type="number" className="form-control w-50" id="doctor-phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                                        <input type="number" className="form-control w-50" id="doctor-phone" placeholder='Enter Client Phone' value={phone} onChange={(e) => setPhone(e.target.value)} />
                                     </div>
                                     <div className="gender mb-2 ">
                                         <p className='fw-bold mb-2'>Choose Gander</p>
