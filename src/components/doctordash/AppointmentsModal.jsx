@@ -3,14 +3,19 @@ import { MdDelete } from "react-icons/md";
 import { db } from '../../firebase/firebaseConfig';
 import { doc, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
-
-export default function AppointmentsModal({ clinic }) {
-    const { id, workingHours: defaultHours } = clinic;
+import logo from '../../assets/petut.png';
+import ConfirmModal from '../ConfirmModal';
+export default function AppointmentsModal({ clinic, modalId }) {
+    
+    const { workingHours: defaultHours } = clinic;
     const [day, setDay] = useState('');
     const [openTime, setOpenTime] = useState('');
     const [closeTime, setCloseTime] = useState('');
-    const [workingHours, setWorkingHours] = useState(defaultHours ||[]);
+    const [workingHours, setWorkingHours] = useState(defaultHours || []);
+    const [showConfirm, setShowConfirm] = useState(false);
 
+
+    // add working hours
     const handleAddDay = () => {
         if (day && openTime && closeTime) {
             const exists = workingHours.some(item => item.day === day);
@@ -22,10 +27,10 @@ export default function AppointmentsModal({ clinic }) {
             }
         }
     };
-
-    const handleDeleteDay = (dayDelated) => {
-        setWorkingHours(workingHours.filter(item => item.day !== dayDelated));
+    const handleDeleteDay = (dayDeleted) => {
+        setWorkingHours(workingHours.filter(item => item.day !== dayDeleted));
     };
+
 
     //edit clinic 
     const handleSave = async () => {
@@ -34,21 +39,21 @@ export default function AppointmentsModal({ clinic }) {
             await updateDoc(clinicRef, {
                 workingHours
             })
-            toast.success('Clinic updated successfully');
+            toast.success('Clinic updated successfully', { autoClose: 3000 });
             document.getElementById('close-btn-edit').click();
 
         } catch (error) {
-            toast.error("Failed to update clinic, error:" + error.message);
+            toast.error("Failed to update clinic, error:" + error.message, { autoClose: 3000 });
         }
     };
     return (
         <Fragment>
-            <div className="modal fade" id="appointments" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style={{ marginTop: '100px' }}>
+            <div className="modal fade" id={`appointments-${modalId}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style={{ marginTop: '100px' }}>
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
-                        <div className="modal-header">
+                        <div className="modal-header d-flex align-items-center justify-content-between">
                             <h1 className="modal-title fs-5" id="staticBackdropLabel">Clinic Appointments</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                            <img src={logo} width={'90px'} height={'90px'} alt="logo" />
                         </div>
                         <div className="modal-body">
                             <form action="#">
@@ -78,20 +83,23 @@ export default function AppointmentsModal({ clinic }) {
                                             {workingHours.map((item, index) => (
                                                 <li key={index} className="list-group-item d-flex justify-content-between align-items-center mb-2 border rounded px-3 py-2">
                                                     <span>{item.day}: {item.openTime} - {item.closeTime}</span>
-                                                    <button className="btn border-0" onClick={() => handleDeleteDay(item.day)}>
-                                                        <MdDelete size={25} className='text-danger' />
+                                                    <button className="btn border-0" onClick={() => { setShowConfirm(true) ; setDay(item.day) }} >
+                                                        <MdDelete size={25} className='text-danger'  />
                                                     </button>
                                                 </li>
                                             ))}
                                         </ul>
+                                    )}
+                                    {showConfirm && (
+                                        <ConfirmModal onDelete={() => { handleDeleteDay(day) }} setShowConfirm={setShowConfirm} selectedId={day} whatDelete={'working hours'} />
                                     )}
                                 </div>
                             </form>
                         </div>
 
                         <div className="modal-footer d-flex justify-content-end gap-2">
-                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
-                            <button type="button" className="custom-button" style={{ width: '100px' }} onClick={handleSave}>Save</button>
+                            <button type="button" className="btn btn-danger" id='close-btn-edit' data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
+                            <button type="button" className="custom-button" style={{ width: '100px' }} onClick={handleSave}>Update</button>
                         </div>
                     </div>
                 </div>

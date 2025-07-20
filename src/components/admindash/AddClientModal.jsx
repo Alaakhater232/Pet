@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react'
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import { toast } from 'react-toastify';
-
+import logo from '../../assets/petut.png';
 export default function AddClientModal() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -37,12 +37,12 @@ export default function AddClientModal() {
 
     return (
         <Fragment>
-            <div className="modal fade" style={{ marginTop: '100px' }} id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div className="modal fade" style={{ marginTop: '100px' }} id="addclient" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
-                        <div className="modal-header">
+                        <div className="modal-header d-flex align-items-center justify-content-between">
                             <h1 className="modal-title fs-5" id="staticBackdropLabel">Client Info</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <img src={logo} width={'90px'} height={'90px'} alt="" />
                         </div>
                         <div className="modal-body">
                             <form action="#">

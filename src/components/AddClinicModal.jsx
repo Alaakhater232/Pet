@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { Fragment, useState } from 'react';
 import { MdDelete } from "react-icons/md";
 import Address from './Address';
@@ -7,7 +6,7 @@ import { db } from '../firebase/firebaseConfig';
 import { toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import specializations from '../spcializations/spcializations.json';
-
+import logo from '../assets/petut.png';
 export default function AddClinicModal() {
   const [day, setDay] = useState('');
   const [openTime, setOpenTime] = useState('');
@@ -128,9 +127,9 @@ export default function AddClinicModal() {
       <div className="modal fade" id="addclinic" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
-            <div className="modal-header">
+            <div className="modal-header d-flex align-items-center justify-content-between">
               <h1 className="modal-title fs-5" id="staticBackdropLabel">Clinic Info</h1>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+              <img src={logo} width={'90px'} height={'90px'} alt="logo" />
             </div>
             <div className="modal-body">
               <form action="#">

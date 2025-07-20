@@ -52,7 +52,7 @@ export default function ManageUsers() {
                         </button>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
-                        <button className='custom-button d-flex align-items-center fw-bold'  data-bs-toggle="modal" data-bs-target="#staticBackdrop" > <RiAddLine size={20} />{activeTab === 'doctors' ? 'Add doctor' : 'Add client'}</button>
+                        <button className='custom-button d-flex align-items-center fw-bold'  data-bs-toggle="modal" data-bs-target={`#${activeTab === 'doctors' ? 'adddoctor' : 'addclient'}`} > <RiAddLine size={20} />{activeTab === 'doctors' ? 'Add doctor' : 'Add client'}</button>
                     </div>
                     {activeTab ==='doctors' ? <AddDoctorModal /> : <AddClientModal />}
                     <div style={{ marginTop: '30px' }}>

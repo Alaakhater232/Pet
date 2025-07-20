@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import specializations from '../../spcializations/spcializations.json'
+import { BeatLoader } from 'react-spinners';
+import logo from '../../assets/petut.png';
 export default function AddDoctorModal() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -11,14 +13,18 @@ export default function AddDoctorModal() {
     const [specialization, setSpecialization] = useState('');
     const [gender, setGender] = useState('');
     const [status, setStatus] = useState('active');
+    const [loading, setLoading] = useState(false);
+
 
     const handleAddDoctor = async () => {
+        if (loading) return;
         //validate form fields
         if (!name.trim() || !email.trim() || !phone.trim() || !specialization.trim() || !gender.trim()) {
             toast.error('Please fill in all the required fields', { autoClose: 3000 });
             return
         }
         try {
+            setLoading(true);
             await addDoc(collection(db, 'doctors'), {
                 name,
                 email,
@@ -42,16 +48,18 @@ export default function AddDoctorModal() {
             }, 3000);
         } catch (error) {
             toast.error("Failed to add doctor, error:" + error.message, { autoClose: 3000 });
+        }finally {
+            setLoading(false);
         }
     }
     return (
         <Fragment>
-            <div className="modal fade" style={{ marginTop: '70px' }} id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div className="modal fade" style={{ marginTop: '70px' }} id="adddoctor" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
-                        <div className="modal-header">
+                        <div className="modal-header d-flex align-items-center justify-content-between">
                             <h1 className="modal-title fs-5" id="staticBackdropLabel">Doctor Info</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <img src={logo} width={'90px'} height={'90px'} alt="" />
                         </div>
                         <div className="modal-body">
                             <form action="#">
@@ -102,7 +110,7 @@ export default function AddDoctorModal() {
                         </div>
                         <div className="modal-footer d-flex gap-3">
                             <button type="button" className="btn btn-danger" id='close-btn-modal' data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
-                            <button type="button" className="custom-button" style={{ width: '100px' }} onClick={handleAddDoctor}>Add</button>
+                            <button type="button" className="custom-button" style={{ width: '120px' }} onClick={handleAddDoctor} disabled={loading}>{loading ? <BeatLoader color='#D9A741' /> : 'Add Doctor'}</button>
                         </div>
 
                     </div>

@@ -3,7 +3,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { Fragment, useState } from 'react'
 import { db } from '../../firebase/firebaseConfig';
 import { toast } from 'react-toastify';
-
+import logo from '../../assets/petut.png';
 export default function EditClientModal({ client, clientId }) {
     if (!client) return null;
     const { name: clientName, email: clientEmail, phone: clientPhone, gender: clientGender } = client;
@@ -42,9 +42,9 @@ export default function EditClientModal({ client, clientId }) {
             <div className="modal fade" style={{ marginTop: '100px' }} id={`editclient-${clientId}`} data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
-                        <div className="modal-header">
+                        <div className="modal-header d-flex align-items-center justify-content-between">
                             <h1 className="modal-title fs-5" id="staticBackdropLabel">Edit Client Info</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <img src={logo} width={'90px'} height={'90px'} alt="" />
                         </div>
                         <div className="modal-body p-1">
                             <form action="#" className='p-3 pb-0'>
@@ -77,7 +77,7 @@ export default function EditClientModal({ client, clientId }) {
                         </div>
                         <div className="modal-footer d-flex gap-3">
                             <button type="button" className="btn btn-danger" id={`close-btn-edit-${clientId}`} data-bs-dismiss="modal" style={{ width: '100px' }} >Close</button>
-                            <button type="button" className="custom-button" style={{ width: '100px' }} onClick={handleSave}>Save</button>
+                            <button type="button" className="custom-button" style={{ width: '100px' }} onClick={handleSave}>Update</button>
                         </div>
                     </div>
                 </div>

@@ -6,13 +6,15 @@ import { FaClinicMedical } from "react-icons/fa";
 import { FaCalendarAlt } from "react-icons/fa";
 
 import { RiAddLine } from "react-icons/ri";
-import AddClinic from '../../components/AddClinicModal';
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 
 import { BeatLoader } from 'react-spinners';
 import ClinicsTable from '../../components/admindash/ClinicsTable';
 import { toast } from 'react-toastify';
+import { FaEye } from "react-icons/fa";
+import AddClinicModal from '../../components/AddClinicModal';
+
 
 
 export default function ManageClinics() {
@@ -58,7 +60,7 @@ export default function ManageClinics() {
     }
     return (
         <Fragment>
-            <div className='container-fluid mt-4'>
+            <div className='container-fluid mt-4'> 
                 <div className=''>
                     <h1>Clinic management</h1>
                     <p className=''>Managing all clinics and responsible doctors</p>
@@ -69,10 +71,10 @@ export default function ManageClinics() {
                     ))}
                 </div>
                 <hr />
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+                <div className='d-flex align-items-center justify-content-end mt-4' >
                     <button className='custom-button d-flex align-items-center fw-bold' data-bs-toggle="modal" data-bs-target="#addclinic" > <RiAddLine size={20} /> Add clinic</button>
                 </div>
-                <AddClinic />
+                <AddClinicModal />
                 {loading ? (<h3 className='text-center mt-5'><BeatLoader color="#D9A741" /></h3>) : clinics.length === 0 ? (<h3 className='text-center my-5'>No clinics found</h3>) : <ClinicsTable  clinics={clinics} onDelete={handleDeleteClinic}/>}
             </div>
         </Fragment>

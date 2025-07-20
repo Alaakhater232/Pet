@@ -4,6 +4,7 @@ import { Fragment, useState } from 'react'
 import { toast } from 'react-toastify';
 import { db } from '../../firebase/firebaseConfig';
 import specializations from '../../spcializations/spcializations.json';
+import logo from '../../assets/petut.png';
 export default function EditDoctorModal({ doctor, modalId }) {
     if (!doctor) return null;
     const { name: defaultName, email: defaultEmail, phone: defaultPhone, specialization: defaultSpec, gender: defaultGender, status: defaultStatus } = doctor;
@@ -13,9 +14,6 @@ export default function EditDoctorModal({ doctor, modalId }) {
     const [specialization, setSpecialization] = useState(defaultSpec);
     const [gender, setGender] = useState(defaultGender);
     const [status, setStatus] = useState(defaultStatus);
-
-
-
 
     //edit doctor in firestore
     const handleSave = async () => {
@@ -47,9 +45,9 @@ export default function EditDoctorModal({ doctor, modalId }) {
             <div className="modal fade" style={{ marginTop: '70px' }} id={`editdoctor-${modalId}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
-                        <div className="modal-header">
+                        <div className="modal-header d-flex align-items-center justify-content-between">
                             <h1 className="modal-title fs-5" id="staticBackdropLabel"> Edit Doctor Info</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <img src={logo} alt="logo" width={'90px'} height={'90px'} />                        
                         </div>
                         <div className="modal-body">
                             <form action="#">

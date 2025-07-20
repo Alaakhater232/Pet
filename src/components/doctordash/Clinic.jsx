@@ -6,16 +6,16 @@ import { MdOutlineMail } from "react-icons/md";
 import { IoTimer } from "react-icons/io5";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { TbEdit } from "react-icons/tb";
+import { MdDelete } from "react-icons/md";
 import AppointmentsModal from './AppointmentsModal';
 import Editclinicmodal from '../EditClinicModal';
-import { MdDelete } from "react-icons/md";
 import ConfirmModal from '../ConfirmModal';
 
 
 
 //get clinics from firebase 
 export default function Clinic({ clinic, onDelete }) {
-    const { name, Specialization, address, phone, email, status } = clinic
+    const { name, specialization, address, phone, email, status } = clinic
 
     const [showConfirm, setShowConfirm] = useState(false);
     const [selectedClinicId, setSelectedClinicId] = useState(null);
@@ -30,7 +30,7 @@ export default function Clinic({ clinic, onDelete }) {
                         <FaUserDoctor size={30} className='' />
                         <div className="title-clinic">
                             <h1 className='fw-bold fs-5 mb-0'>{name}</h1>
-                            <p className='mb-0'>{Specialization}</p>
+                            <p className='mb-0'>{specialization}</p>
                         </div>
                     </div>
                     <div className="right">
@@ -70,8 +70,8 @@ export default function Clinic({ clinic, onDelete }) {
                 <div className="options d-flex align-items-center justify-content-between">
                     <div className="option d-flex align-items-center justify-content-between gap-1">
                         <IoTimer />
-                        <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target="#appointments">Appointments</button>
-                        <AppointmentsModal clinic={clinic} />
+                        <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target={`#appointments-${clinic.id}`}>Appointments</button>
+                        <AppointmentsModal clinic={clinic} modalId={clinic.id} />
                     </div>
                     <div className="option d-flex align-items-center justify-content-between gap-1">
                         <HiMiniUserGroup />

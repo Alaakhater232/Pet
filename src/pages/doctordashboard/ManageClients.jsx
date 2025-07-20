@@ -1,22 +1,13 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { BiSearchAlt2 } from "react-icons/bi";
+import { FaEye } from "react-icons/fa";
 
 export default function Manageclients() {
-  // const [searchTerm, setSearchTerm] = useState('');
-  // const [statusFilter, setStatusFilter] = useState('all');
 
-  // const filteredClients = clients.filter(client => {
-  //   const nameMatch = client.name.toLowerCase().includes(searchTerm.toLowerCase());
-  //   const emailMatch = client.email.toLowerCase().includes(searchTerm.toLowerCase());
-  //   const specializationMatch = client.specialization.toLowerCase().includes(searchTerm.toLowerCase());
-  //   // const doctorMatch = clinic.responsibleDoctor.toLowerCase().includes(searchTerm.toLowerCase());
-  //   const statusMatch = statusFilter === 'all' || client.status === statusFilter;
-  //   return (nameMatch || emailMatch || specializationMatch) && statusMatch;
-  // })
   return (
     <Fragment>
-      <nav aria-label="breadcrumb" className='container-fluid d-flex align-items-center justify-content-between ' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', marginTop: '20px', padding: '10px 40px', borderRadius: '8px' }} >
+      <nav aria-label="breadcrumb" className='container-fluid d-flex align-items-center justify-content-between mb-5' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', marginTop: '20px', padding: '10px 40px', borderRadius: '8px' }} >
         <span className='fw-bold'>Clients</span>
         <ol className="breadcrumb mb-0 py-3 text-align-center" >
           <li className="breadcrumb-item"><Link to="/" className='text-decoration-none' style={{ color: '#D9A741' }}>Home</Link></li>
@@ -48,12 +39,12 @@ export default function Manageclients() {
         {/* value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} */}
         <select className="form-select w-25" >
           <option value="all" >All</option>
-          <option value="active" >active</option>
-          <option value="inactive" >inactive</option>
+          <option value="booked" >Booked</option>
+          <option value="inactive" >Completed</option>
         </select>
       </div>
       <div className="patient-table mt-4 bg-white shadow rounded w-100">
-        <table class="table">
+        <table className="table">
           <thead className="table-light py-3">
             <tr className="">
               <th className="px-4 py-3">Name</th>
@@ -72,23 +63,15 @@ export default function Manageclients() {
               <td className="px-4 py-3">-</td>
               <td className="px-4 py-3">-</td>
               <td className="px-4 py-3">
-                <select class="form-select w-50" aria-label="Default select example">
-                  <option value="1" selected>completed</option>
+                <select className="form-select w-50" aria-label="Default select example">
+                  <option value="1">completed</option>
                   <option value="2">booked</option>
                 </select>
               </td>
-            </tr>
-            <tr>
-              <td className="px-4 py-3">--</td>
-              <td className="px-4 py-3">-</td>
-              <td className="px-4 py-3">-</td>
-              <td className="px-4 py-3">-</td>
-              <td className="px-4 py-3">-</td>
               <td className="px-4 py-3">
-                <select class="form-select w-50" aria-label="Default select example">
-                  <option value="1" selected>completed</option>
-                  <option value="2">booked</option>
-                </select>
+                <button type="button" className="btn border-0 p-0 mb-1" data-bs-toggle="modal" data-bs-target="#review">
+                  <FaEye cursor={"pointer"} />
+                </button>
               </td>
             </tr>
           </tbody>

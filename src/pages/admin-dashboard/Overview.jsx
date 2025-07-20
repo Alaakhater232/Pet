@@ -5,7 +5,7 @@ import { FaUsers } from "react-icons/fa6";
 import { FaClinicMedical } from "react-icons/fa";
 import { FaCalendarAlt } from "react-icons/fa";
 import { FaSackDollar } from "react-icons/fa6";
-import Charts from '../../components/admindash/Charts';
+import Charts from './Charts';
 
 export default function Overview() {
     const statistics = [
@@ -29,12 +29,6 @@ export default function Overview() {
                         {statistics.map((statistic, index) => (
                             <Statistic key={index} title={statistic.title} count={statistic.count} icon={statistic.icon} />
                         ))}
-                    </div>
-                </div>
-                <hr />
-                <div className="revenues mb-5">
-                    <div className="charts ">
-                        <Charts />
                     </div>
                 </div>
             </div>

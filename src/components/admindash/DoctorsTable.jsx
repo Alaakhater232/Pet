@@ -8,7 +8,11 @@ import { toast } from 'react-toastify';
 import EditDoctorModal from './EditDoctorModal';
 
 import { BiSearchAlt2 } from "react-icons/bi";
+import { MdStarRate } from "react-icons/md";
+import { FaEye } from "react-icons/fa";
 import ConfirmModal from '../ConfirmModal';
+import ViewDoctorModal from './ViewDoctorModal';
+
 
 export default function DoctorsTable() {
     const [doctors, setDoctors] = useState([]);
@@ -99,9 +103,10 @@ export default function DoctorsTable() {
                             <thead className="table-light py-3">
                                 <tr className="">
                                     <th className="px-4 py-3">Name</th>
-                                    <th className="px-4 py-3">Email</th>
-                                    <th className="px-4 py-3">Phone</th>
+                                    {/* <th className="px-4 py-3">Email</th>
+                                    <th className="px-4 py-3">Phone</th> */}
                                     <th className="px-4 py-3">Specialization</th>
+                                    <th className="px-4 py-3">Rating</th>
                                     <th className="px-4 py-3">Gender</th>
                                     <th className="px-4 py-3">Status</th>
                                     <th className="px-4 py-3">Action</th>
@@ -111,14 +116,21 @@ export default function DoctorsTable() {
                                 {filteredDoctors.map((doctor) => (
                                     <tr key={doctor.id}>
                                         <td className="px-4 py-3">{doctor.name}</td>
-                                        <td className="px-4 py-3">{doctor.email}</td>
-                                        <td className="px-4 py-3">{doctor.phone}</td>
+                                        {/* <td className="px-4 py-3">{doctor.email}</td>
+                                        <td className="px-4 py-3">{doctor.phone}</td> */}
                                         <td className="px-4 py-3">{doctor.specialization}</td>
+                                        <td className="px-4 py-3"><MdStarRate color='#D9A741'  /></td>
                                         <td className="px-4 py-3" ><span style={{ color: 'white', backgroundColor: doctor.gender === 'male' ? '#007BFF ' : '#E91E63 ', fontSize: '14px' }} className='px-3 py-1 rounded rounded-5 '>{doctor.gender}</span></td>
                                         <td className="px-4 py-3"><span style={{ color: 'white', backgroundColor: doctor.status === 'active' ? '#28a745  ' : '#6c757d   ', fontSize: '14px' }} className='px-3 py-1 rounded rounded-5 '>{doctor.status}</span></td>
-                                        <td className="px-4 py-3">
-                                            <button type="button" className="btn border-0 p-0 me-2" data-bs-toggle="modal" data-bs-target={`#editdoctor-${doctor.id}`}>
-                                                <TbEdit size={20} />
+                                        <td className="px-4 py-3 d-flex align-items-center gap-2 ">
+                                            
+                                            <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target={`#viewdoctor-${doctor.id}`}>
+                                                <FaEye cursor={"pointer"}  />
+                                            </button>
+                                            <ViewDoctorModal doctor={doctor} modalId={doctor.id} />
+
+                                            <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target={`#editdoctor-${doctor.id}`}>
+                                                <TbEdit className='mb-1'  />
                                             </button>
                                             <EditDoctorModal doctor={doctor} modalId={doctor.id} />
                                             <MdDelete cursor={"pointer"} size={20} className='text-danger' onClick={() => {

@@ -5,6 +5,8 @@ import EditClinicModal from '../EditClinicModal';
 import { BiSearchAlt2 } from "react-icons/bi";
 import ConfirmModal from '../ConfirmModal';
 
+import { FaEye } from "react-icons/fa";
+import ViewClinicModal from './ViewClinicModal';
 
 
 export default function ClinicsTable({ clinics, onDelete }) {
@@ -54,10 +56,6 @@ export default function ClinicsTable({ clinics, onDelete }) {
                         <tr className="">
                             <th className="px-4 py-3">Clinic Name</th>
                             <th className="px-4 py-3">specialization</th>
-                            <th className="px-4 py-3">Phone</th>
-                            <th className="px-4 py-3">Address</th>
-                            <th className="px-4 py-3">Responsible Doctor</th>
-                            {/* <th className="px-4 py-3">Number of Clients</th> */}
                             <th className="px-4 py-3">Status</th>
                             <th className="px-4 py-3">Action</th>
                         </tr>
@@ -70,14 +68,15 @@ export default function ClinicsTable({ clinics, onDelete }) {
                             <tr key={clinic.id}>
                                 <td className="px-4 py-3">{clinic.name}</td>
                                 <td className="px-4 py-3">{clinic.specialization}</td>
-                                <td className="px-4 py-3">{clinic.phone}</td>
-                                <td className="px-4 py-3">{clinic.address.governorate}-{clinic.address.city}</td>
-                                <td className="px-4 py-3">{clinic.responsible_doctor}</td>
-                                {/* <td className="px-4 py-3">{clinic.number_of_clients}</td> */}
                                 <td className="px-4 py-3"><span style={{ color: 'white', backgroundColor: clinic.status === 'active' ? '#28a745  ' : '#6c757d   ', fontSize: '14px' }} className='px-3 py-1 rounded rounded-5 '>{clinic.status}</span></td>
-                                <td className="px-4 py-3">
-                                    <button type="button" className="btn border-0 p-0 me-2" data-bs-toggle="modal" data-bs-target={`#editclinic-${clinic.id}`}>
-                                        <TbEdit size={20} className='' />
+                                <td className="px-4 py-3 d-flex align-items-center gap-2">
+                                    
+                                    <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target={`#viewclinic-${clinic.id}`}>
+                                        <FaEye cursor={"pointer"} size={20} className='mb-1'  />
+                                    </button>
+                                    <ViewClinicModal clinic={clinic} modalId={clinic.id}/>
+                                    <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target={`#editclinic-${clinic.id}`} >
+                                        <TbEdit size={20} className='mb-1'  />
                                     </button>
                                     <EditClinicModal clinic={clinic} modalId={clinic.id} />
                                     <MdDelete cursor={"pointer"} size={20} className='text-danger' onClick={() => {
