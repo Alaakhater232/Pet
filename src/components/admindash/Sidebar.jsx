@@ -7,7 +7,7 @@ import { TbLogout2 } from "react-icons/tb";
 import { GrOverview } from "react-icons/gr";
 import { IoStatsChart } from "react-icons/io5";
 import { MdReviews } from "react-icons/md";
-import logo from '../../assets/petut.png';
+// import logo from '../../assets/petut.png';
 import { HiShoppingBag } from "react-icons/hi2";
 
 
@@ -15,12 +15,12 @@ export default function Sidebar({ isOpen }) {
     return (
         <Fragment>
             <div className={`sidebar background d-flex flex-column flex-shrink-0 p-3 position-fixed bottom-0 col-2 ${isOpen ? 'expanded' : 'collapsed'}`} style={{ top: '100px', borderRight: '1px solid #D9A741' }} >
-                <ul className=" p-0 d-flex flex-column align-items-left gap-4" >
+                <ul className=" p-0 d-flex flex-column align-items-left" style={{ gap: '50px' }} >
                     <div className="top-links">
-                        <div className="logo">
+                        {/* <div className="logo">
                             <img src={logo} width={'80px'} height={'80px'} alt="logo" className='text-left' />
 
-                        </div>
+                        </div> */}
                         <li className="mb-2 p-3">
                             <NavLink
                                 to="/admin-dashboard/overview"

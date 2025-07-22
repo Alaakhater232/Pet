@@ -1,0 +1,445 @@
+const cats = [
+    {
+        "id": "1",
+        "productName": "Dreamies Dry Cat Food",
+        "description": "Dreamies Creamy Adult Cat & Kitten Treats with Chicken",
+        "imageURL": "",
+        "price": 8.80,
+        "weight": "60g",
+        "rate": 4.5,
+        "category": "cat"
+    },
+    {
+        "id": "2",
+        "productName": "Catsan Dry Cat Food",
+        "description": "Catsan Hygiene Non-Clumping Odour Control Cat Litter",
+        "price": 6.99,
+        "imageURL": "",
+        "weight": "100g",
+        "rate": 5,
+        "category": "cat"
+    },
+    {
+        "id": "3",
+        "productName": "Dry Cat Food",
+        "description": "Whiskas Kitten Dry Cat Food with Chicken 7kg",
+        "price": 16.59,
+        "imageURL": "",
+        "weight": "7kg",
+        "rate": 4,
+        "category": "cat"
+    },
+    {
+        "id": "4",
+        "productName": "Turkey Dry Cat Food",
+        "description": "James Wellbeloved Adult Dry Cat Food Turkey 10kg",
+        "price": 59.99,
+        "imageURL": "",
+        "weight": "10kg",
+        "rate": 4,
+        "category": "cat"
+    },
+    {
+        "id": "5",
+        "productName": "Royal Canin Dry Cat Food",
+        "description": "Royal Canin Veterinary Hypoallergenic Adult Dry Cat Food",
+        "price": 56.27,
+        "imageURL": "",
+        "weight": "100g",
+        "rate": 3.5,
+        "category": "cat"
+    },
+    {
+        "id": "6",
+        "productName": "GoCat Dry Cat Food",
+        "description": "GoCat Adult Dry Cat Food Tuna Herring & Veg 10kg",
+        "price": 30.99,
+        "imageURL": "",
+        "weight": "100g",
+        "rate": 5,
+        "category": "cat"
+    },
+    {
+        "id": "7",
+        "productName": "Purina Dry Cat Food",
+        "description": "Purina ONE Adult Cat Dry Food Salmon 3kg",
+        "price": 14.00,
+        "imageURL": "",
+        "weight": "3kg",
+        "rate": 5,
+        "category": "cat"
+    },
+    {
+        "id": "8",
+        "productName": "Royal Canin Dry Cat Food",
+        "description": "Royal Canin Mother & Babycat Wet Cat Food Mousse 12x195g",
+        "price": 7.5,
+        "imageURL": "",
+        "weight": "100g",
+        "rate": 4,
+        "category": "cat"
+    },
+    {
+        "id": "9",
+        "productName": "Hill's Dry Cat Food",
+        "description": "Hill's Science Plan Sensitive Stomach & Skin Dry Adult Cat Food 7kg",
+        "price": 56.99,
+        "imageURL": "",
+        "weight": "100g",
+        "rate": 3.5,
+        "category": "cat"
+    },
+    {
+        "id": "10",
+        "productName": "Purina Dry Cat Food",
+        "description": "Purina ONE Kitten Dry Cat Food Chicken & Wholegrain 2.8kg",
+        "price": 12.99,
+        "imageURL": "",
+        "weight": "2.8kg",
+        "rate": 3,
+        "category": "cat"
+    },
+    {
+        "id": "11",
+        "productName": "Pro Plan Dry Cat Food",
+        "description": "Pro Plan Vet Diet UR Urinary Dry Cat Food Chicken 5kg",
+        "price": 33.99,
+        "imageURL": "",
+        "weight": "5kg",
+        "rate": 5,
+        "category": "cat"
+    },
+    {
+        "id": "12",
+        "productName": "Pro Plan Dry Cat Food",
+        "description": "Pro Plan Sterilised Delicate Digestion Adult Dry Cat Food Chicken 3kg",
+        "price": 22.99,
+        "imageURL": "",
+        "weight": "3kg",
+        "rate": 4,
+        "category": "cat"
+    },
+    {
+        "id": "13",
+        "productName": "Scrumbles Dry Cat Food",
+        "description": "Scrumbles Complete Dry Kitten Cat Food Chicken 2.5kg",
+        "price": 18.99,
+        "imageURL": "",
+        "weight": "2.5kg",
+        "rate": 2.5,
+        "category": "cat"
+    },
+    {
+        "id": "14",
+        "productName": "Iams Dry Cat Food",
+        "description": "Iams Adult Dry Cat Food Chicken 2kg",
+        "price": 9.99,
+        "imageURL": "",
+        "weight": "2kg",
+        "rate": 5,
+        "category": "cat"
+    },
+    {
+        "id": "15",
+        "productName": "Blink! Dry Cat Food",
+        "description": "Blink! Fresh Dry Adult Cat Food Salmon 2kg",
+        "price": 22.99,
+        "imageURL": "",
+        "weight": "2kg",
+        "rate": 5,
+        "category": "cat"
+    }
+];
+
+const dogs = [
+
+    {
+        "id": "1",
+        "productName": "Pro Plan Dry Dog Food",
+        "description": "Pro Plan Veterinary Diets HA Hypoallergenic Adult Dry Dog Food 11kg",
+        "price": 58.89,
+        "imageURL": "",
+        "weight": "11kg",
+        "rate": 4.5,
+        "category": "dog"
+    },
+    {
+        "id": "2",
+        "productName": "Pro Plan Wet Dog Food",
+        "description": "Pro Plan Veterinary Diets HA Hypoallergenic Adult Wet Dog Food 12x400g",
+        "price": 31.82,
+        "imageURL": "",
+        "weight": "100g",
+        "rate": 5,
+        "category": "dog"
+    },
+    {
+        "id": "3",
+        "productName": "Royal Canin Dry Dog Food",
+        "description": "Royal Canin Medium Dry Adult Dog Food 15kg",
+        "price": 56.99,
+        "imageURL": "",
+        "weight": "100g",
+        "rate": 3,
+        "category": "dog"
+    },
+    {
+        "id": "4",
+        "productName": "Hill's Dry Dog Food",
+        "description": "Harringtons Complete Natural Adult Dry Dog Food Turkey & Veg 15kg",
+        "price": 35.55,
+        "imageURL": "",
+        "rate": 4.5,
+        "category": "dog"
+    },
+    {
+        "id": "5",
+        "productName": "Royal Canin Maxi",
+        "description": "Royal Canin Maxi Dry Adult Dog Food 15kg",
+        "price": 56.99,
+        "imageURL": "",
+        "rate": 4.5,
+        "category": "dog"
+    },
+    {
+        "id": "6",
+        "productName": "Hill's Dry Dog Food",
+        "description": "Hill's Prescription Diet Digestive Care Low Fat Wet Adult Dog Food 12x354g",
+        "price": 36.50,
+        "imageURL": "",
+        "rate": 3.5,
+        "category": "dog"
+    },
+    {
+        "id": "7",
+        "productName": "Dry Dog Food",
+        "description": "Harringtons Grain Free Superfoods Adult Dry Dog Food Chicken 12kg",
+        "price": 39.99,
+        "imageURL": " ",
+        "rate": 4,
+        "category": "dog"
+    },
+    {
+        "id": "8",
+        "productName": "Mature Dry Dog Food Chicken",
+        "description": "Step Up Naturals Mature Dry Dog Food Chicken with Turkey 14kg",
+        "price": 26.99,
+        "imageURL": "",
+        "rate": 4.5,
+        "category": "dog"
+    },
+    {
+        "id": "9",
+        "productName": "Wagg Dry ",
+        "description": "Wagg Active Goodness Working Adult Dry Dog Food Chicken 12kg",
+        "price": 12.99,
+        "imageURL": "",
+        "rate": 3.5,
+        "category": "dog"
+    },
+    {
+        "id": "10",
+        "productName": "Arden Grange ",
+        "description": "Arden Grange Adult Dry Dog Food with Chicken & Rice",
+        "price": 24.99,
+        "imageURL": "",
+        "rate": 5,
+        "category": "dog"
+    }
+    {
+        "id": "11",
+        "productName": "Skinner's Field & Trial",
+        "description": "Skinner's Field & Trial Adult Working Dry Dog Food Muesli Mix 15kg",
+        "price": 25.99,
+        "imageURL": "",
+        "rate": 4,
+        "category": "dog"
+    }
+    {
+        "id": "12",
+        "productName": "Forthglade",
+        "description": "Forthglade Grain Free Adult Dry Dog Food Chicken 6kg",
+        "price": 33.99,
+        "imageURL": "",
+        "rate": 5,
+        "category": "dog"
+    }
+    {
+        "id": "13",
+        "productName": "Lily's Kitchen",
+        "description": "Lily's Kitchen Adult Dry Dog Food Chicken & Duck 12kg",
+        "price": 75.99,
+        "imageURL": "",
+        "rate": 5,
+        "category": "dog"
+    }
+    {
+        "id": "14",
+        "productName": "Burns Sensitive",
+        "description": "Burns Sensitive Dry Dog Food Pork & Potato 12kg",
+        "price": 52.99,
+        "imageURL": "",
+        "rate": 4,
+        "category": "dog"
+    }
+    {
+        "id": "15",
+        "productName": "Medium Breed Adult Dry Dog Food",
+        "description": "Wellness Core Complete Medium Breed Adult Dry Dog Food Turkey with Chicken 10kg",
+        "price": 46.99,
+        "imageURL": "",
+        "rate": 4,
+        "category": "dog"
+    }
+]
+
+const toys = [
+    {
+        "id": "1",
+        "productName": "Mini Tennis Balls ",
+        "description": "Pets Essentials Mini Tennis Balls 3 Pack",
+        "price": 2.00,
+        "imageURL": "",
+        "rate": 4,
+        "category": "toys"
+    },
+    {
+        "id": "2",
+        "productName": "Rubber Toys",
+        "description": "Just For Puppy Rubber Toys 3 Pack",
+        "price": 6.00,
+        "imageURL": "",
+        "rate": 4,
+        "category": "toys"
+    },
+    {
+        "id": "3",
+        "productName": "Cat Toys Multi-Pack",
+        "description": "Pets at Home Cat Toys Multi-Pack 11 Pack",
+        "price": 2.00,
+        "imageURL": "",
+        "rate": 4.5,
+        "category": "toys"
+    },
+    {
+        "id": "4",
+        "productName": " Squeaky Doughnut Assorted Toy",
+        "description": "Just For Puppy Squeaky Doughnut Assorted Toy",
+        "price": 2.00,
+        "imageURL": "",
+        "rate": 3.5,
+        "category": "toys"
+    },
+    {
+        "id": "5",
+        "productName": "Squeaky Finn Fox Toy",
+        "description": "Just For Puppy Squeaky Finn Fox Toy",
+        "price": 3.00,
+        "imageURL": "",
+        "rate": 3.5,
+        "category": "toys"
+    },
+    {
+        "id": "6",
+        "productName": "Rope & Textured Ring Toy",
+        "description": "Just For Puppy Rope & Textured Ring Toy",
+        "price": 3.00,
+        "imageURL": "",
+        "rate": 5,
+        "category": "toys"
+    },
+    {
+        "id": "7",
+        "productName": " Ring Puppy Toy",
+        "description": "Fisher Price KEY-9 Teething Ring Puppy Toy",
+        "price": 5.00,
+        "imageURL": "",
+        "rate": 5,
+        "category": "toys"
+    },
+    {
+        "id": "8",
+        "productName": "Nerf Compact Blaster",
+        "description": "Nerf Compact Blaster & Tennis Ball Dog Toys x2",
+        "price": 15.00,
+        "imageURL": "",
+        "rate": 5,
+        "category": "toys"
+    },
+    {
+        "id": "9",
+        "productName": "Latex Ball Squeaky",
+        "description": "Pets at Home Latex Ball Squeaky Dog Toy Small",
+        "price": 2.00,
+        "imageURL": "",
+        "rate": 4,
+        "category": "toys"
+    },
+    {
+        "id": "10",
+        "productName": "Tennis Ball Tug Dog Toy",
+        "description": "Pets at Home Tennis Ball Tug Dog Toy",
+        "price": 3.00,
+        "imageURL": "",
+        "rate": 3,
+        "category": "toys"
+    },
+    {
+        "id": "11",
+        "productName": "Vinyl Dog Toy Assorted Colors",
+        "description": "Pets at Home Sea Creature Vinyl Dog Toy Assorted Colors",
+        "price": 1.00,
+        "imageURL": "",
+        "rate": 3,
+        "category": "toys"
+    },
+    {
+        "id": "12",
+        "productName": "TPR Dog Toy",
+        "description": "Nerf Colour Blast Squeak Bone TPR Dog Toy",
+        "price": 6.00,
+        "imageURL": "",
+        "rate": 4,
+        "category": "toys"
+    },
+    {
+        "id": "13",
+        "productName": "Frisbee Dog Toy Assorted",
+        "description": "Pets at Home Frisbee Dog Toy Assorted",
+        "price": 2.00,
+        "imageURL": "",
+        "rate": 3.5,
+        "category": "toys"
+    },
+    {
+        "id": "14",
+        "productName": "Dog Toy Assorted",
+        "description": "Pets at Home Fruit Doughnut Squeaky Dog Toy Assorted",
+        "price": 3.00,
+        "imageURL": "",
+        "rate": 3,
+        "category": "toys"
+    },
+    {
+        "id": "15",
+        "productName": "Tonka Infinity Tug Dog Toy 12",
+        "description": "Pets at Home Tonka Infinity Tug Dog Toy ",
+        "price": 8.00,
+        "imageURL": "",
+        "rate": 5,
+        "category": "toys"
+    },
+]
+
+
+
+
+    {
+        "id": "46",
+        "productName": "Fruits Squeaky Tennis Balls x3",
+        "price": 2.50,
+        "description": "Pets at Home Sunny Daze Fruits Squeaky Tennis Balls x3",
+        "imageURL": "",
+        "rate": 3.5,
+        "category": "toys"
+    },

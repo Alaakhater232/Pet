@@ -71,11 +71,11 @@ export default function ManageClinics() {
                     ))}
                 </div>
                 <hr />
-                <div className='d-flex align-items-center justify-content-end mt-4' >
+                <div className='d-flex align-items-center justify-content-end mt-4 pb-5' >
                     <button className='custom-button d-flex align-items-center fw-bold' data-bs-toggle="modal" data-bs-target="#addclinic" > <RiAddLine size={20} /> Add clinic</button>
                 </div>
                 <AddClinicModal />
-                {loading ? (<h3 className='text-center mt-5'><BeatLoader color="#D9A741" /></h3>) : clinics.length === 0 ? (<h3 className='text-center my-5'>No clinics found</h3>) : <ClinicsTable  clinics={clinics} onDelete={handleDeleteClinic}/>}
+                {loading ? (<h3 className='text-center mt-5'><BeatLoader color="#D9A741" /></h3>) : clinics.length === 0 ? (<h3 className='text-center my-5'>No clinics found</h3>) : <ClinicsTable  clinics={clinics} onDelete={handleDeleteClinic}  loading={loading}/>}
             </div>
         </Fragment>
     )

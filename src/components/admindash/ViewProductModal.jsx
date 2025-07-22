@@ -12,14 +12,14 @@ export default function ViewProductModal({ product, modalId }) {
                         </div>
                         <div className="modal-body ">
                             <div className="d-flex align-items-center " style={{ gap: '50px' }}>
-                                <div className="product-image col-md-5">
+                                <div className="product-image col-md-4">
                                     <img src={product.imageURL} alt="product-image" className='w-100' />
                                 </div>
                                 <div className="details col-md-7">
                                     <div className="product-name mb-3"><span className="fw-bold">Clinic Name :</span> {product.productName}</div>
                                     <div className="product-description mb-3"><span className="fw-bold">Description : </span> {product.description}</div>
                                     <div className="product-price mb-3"><span className="fw-bold">Price : </span> {product.price}</div>
-                                    <div className="product-category mb-3"><span className="fw-bold">Category : </span> {product.category}</div>
+                                    <div className="product-category mb-3"><span className="fw-bold me-2">Category : </span> <span style={{ color: 'white', backgroundColor: product.category === 'cat' ? '#A66DD4   ' : product.category === 'dog' ? '#4DA6FF  ' : product.category === 'bird' ? '#4CAF50 ' : product.category === 'toys' ? '#FFA726' : '#A66DD4' , fontSize: '14px' }} className='px-3 py-1 rounded rounded-2 '>{product.category.charAt(0).toUpperCase() + product.category.slice(1)}</span></div>
                                     <div className="product-rate mb-3"><span className="fw-bold">Rate : </span> {product.rate}</div>
                                 </div>
 

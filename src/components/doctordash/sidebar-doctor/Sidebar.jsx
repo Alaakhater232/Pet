@@ -6,18 +6,18 @@ import { IoPersonSharp } from "react-icons/io5";
 import { NavLink } from 'react-router-dom';
 import { TbLogout2 } from "react-icons/tb";
 import './sidebar.css'
-import logo from '../../../assets/petut.png'
+// import logo from '../../../assets/petut.png'
 
 export default function Sidebar({ isOpen }) {
     return (
         <Fragment>
             <div className={`sidebar background d-flex flex-column flex-shrink-0 p-3 position-fixed  bottom-0 col-2 ${isOpen ? 'expanded' : 'collapsed'}`} style={{ top: '100px', borderRight: '1px solid #D9A741' }} >
-                <ul className=" p-0 d-flex flex-column  align-items-left " style={{gap: '150px'}}>
+                <ul className=" p-0 d-flex flex-column  align-items-left " style={{gap: '240px'}}>
                     <div className="top-links">
-                        <div className="logo">
+                        {/* <div className="logo">
                             <img src={logo} width={'80px'} height={'80px'} alt="logo" className='text-left' />
 
-                        </div>
+                        </div> */}
                         <li className="mb-2 p-3">
                             <NavLink
                                 to="/doctor-dashboard/manage-clients"

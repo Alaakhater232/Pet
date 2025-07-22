@@ -188,12 +188,11 @@ export default function EditProductModal({ product, modalId, onProductUpdate }) 
                                         onChange={(e) => setCategory(e.target.value)}
                                     >
                                         <option value="">Open this select menu</option>
-                                        <option value="Cat">Cat</option>
-                                        <option value="Dog">Dog</option>
-                                        <option value="Fish">Fish</option>
-                                        <option value="Bird">Bird</option>
-                                        <option value="Horse">Horse</option>
-                                        <option value="Reptile">Reptile</option>
+                                        <option value="cat">Cat</option>
+                                        <option value="dog">Dog</option>
+                                        <option value="bird">Bird</option>
+                                        <option value="toys">Toyes</option>
+
                                     </select>
                                 </div>
                             </form>

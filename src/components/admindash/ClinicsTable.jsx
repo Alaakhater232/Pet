@@ -7,9 +7,9 @@ import ConfirmModal from '../ConfirmModal';
 
 import { FaEye } from "react-icons/fa";
 import ViewClinicModal from './ViewClinicModal';
+import { BeatLoader } from 'react-spinners';
 
-
-export default function ClinicsTable({ clinics, onDelete }) {
+export default function ClinicsTable({ clinics, onDelete,  loading }) {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
@@ -18,7 +18,7 @@ export default function ClinicsTable({ clinics, onDelete }) {
     const [selectedClinicId, setSelectedClinicId] = useState(null);
 
     // filter clinics by name, email, or specialization
-    const filteredDoctors = clinics.filter(clinic => {
+    const filterClinics = clinics.filter(clinic => {
         const nameMatch = clinic.name.toLowerCase().includes(searchTerm.toLowerCase());
         const emailMatch = clinic.email.toLowerCase().includes(searchTerm.toLowerCase());
         const specializationMatch = clinic.specialization.toLowerCase().includes(searchTerm.toLowerCase());
@@ -28,6 +28,7 @@ export default function ClinicsTable({ clinics, onDelete }) {
     })
     return (
         <Fragment>
+
 
             <div className="d-flex justify-content-between align-items-center my-3">
                 <div className="search-box w-50 position-relative">
@@ -50,49 +51,53 @@ export default function ClinicsTable({ clinics, onDelete }) {
                     <option value="inactive" >inactive</option>
                 </select>
             </div>
-            <div className="patient-table mt-4 mb-5 bg-white shadow rounded w-100">
-                <table className="table">
-                    <thead className="table-light py-3">
-                        <tr className="">
-                            <th className="px-4 py-3">Clinic Name</th>
-                            <th className="px-4 py-3">specialization</th>
-                            <th className="px-4 py-3">Status</th>
-                            <th className="px-4 py-3">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            {loading ? <h3 className='text-center mt-5'><BeatLoader color='#D9A741' /></h3> : clinics.length === 0 ? <h3 className='text-center mt-5 '>No clinics found</h3> : filterClinics.length === 0 ? <h3 className='text-center mt-5'>No clinics found</h3> :
+                (
+                    <div className="patient-table mt-4 mb-5 bg-white shadow rounded w-100">
+                        <table className="table">
+                            <thead className="table-light py-3">
+                                <tr className="">
+                                    <th className="px-4 py-3">Clinic Name</th>
+                                    <th className="px-4 py-3">specialization</th>
+                                    <th className="px-4 py-3">Status</th>
+                                    <th className="px-4 py-3">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
 
 
-                        {filteredDoctors.map((clinic) => (
-                            <tr key={clinic.id}>
-                                <td className="px-4 py-3">{clinic.name}</td>
-                                <td className="px-4 py-3">{clinic.specialization}</td>
-                                <td className="px-4 py-3"><span style={{ color: 'white', backgroundColor: clinic.status === 'active' ? '#28a745  ' : '#6c757d   ', fontSize: '14px' }} className='px-3 py-1 rounded rounded-5 '>{clinic.status}</span></td>
-                                <td className="px-4 py-3 d-flex align-items-center gap-2">
-                                    
-                                    <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target={`#viewclinic-${clinic.id}`}>
-                                        <FaEye cursor={"pointer"} size={20} className='mb-1'  />
-                                    </button>
-                                    <ViewClinicModal clinic={clinic} modalId={clinic.id}/>
-                                    <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target={`#editclinic-${clinic.id}`} >
-                                        <TbEdit size={20} className='mb-1'  />
-                                    </button>
-                                    <EditClinicModal clinic={clinic} modalId={clinic.id} />
-                                    <MdDelete cursor={"pointer"} size={20} className='text-danger' onClick={() => {
-                                        setShowConfirm(true);
-                                        setSelectedClinicId(clinic.id);
-                                    }} />
-                                </td>
-                                {showConfirm && (
-                                    <ConfirmModal onDelete={onDelete} setShowConfirm={setShowConfirm} selectedId={selectedClinicId} whatDelete={"clinic"} />
-                                )}
-                            </tr>
-                        ))}
+                                {filterClinics.map((clinic) => (
+                                    <tr key={clinic.id}>
+                                        <td className="px-4 py-3">{clinic.name}</td>
+                                        <td className="px-4 py-3">{clinic.specialization}</td>
+                                        <td className="px-4 py-3"><span style={{ color: 'white', backgroundColor: clinic.status === 'active' ? '#28a745  ' : '#6c757d   ', fontSize: '14px' }} className='px-3 py-1 rounded rounded-5 '>{clinic.status}</span></td>
+                                        <td className="px-4 py-3 d-flex align-items-center gap-2">
 
-                    </tbody>
-                </table>
-            </div>
+                                            <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target={`#viewclinic-${clinic.id}`}>
+                                                <FaEye cursor={"pointer"} size={20} className='mb-1' />
+                                            </button>
+                                            <ViewClinicModal clinic={clinic} modalId={clinic.id} />
+                                            <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target={`#editclinic-${clinic.id}`} >
+                                                <TbEdit size={20} className='mb-1' />
+                                            </button>
+                                            <EditClinicModal clinic={clinic} modalId={clinic.id} />
+                                            <MdDelete cursor={"pointer"} size={20} className='text-danger' onClick={() => {
+                                                setShowConfirm(true);
+                                                setSelectedClinicId(clinic.id);
+                                            }} />
+                                        </td>
+                                        {showConfirm && (
+                                            <ConfirmModal onDelete={onDelete} setShowConfirm={setShowConfirm} selectedId={selectedClinicId} whatDelete={"clinic"} />
+                                        )}
+                                    </tr>
+                                ))}
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                )}
         </Fragment>
     )
 }
