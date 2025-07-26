@@ -19,9 +19,9 @@ export default function ClinicsTable({ clinics, onDelete,  loading }) {
 
     // filter clinics by name, email, or specialization
     const filterClinics = clinics.filter(clinic => {
-        const nameMatch = clinic.name.toLowerCase().includes(searchTerm.toLowerCase());
-        const emailMatch = clinic.email.toLowerCase().includes(searchTerm.toLowerCase());
-        const specializationMatch = clinic.specialization.toLowerCase().includes(searchTerm.toLowerCase());
+        const nameMatch = (clinic.name || '').toLowerCase().includes(searchTerm.toLowerCase());
+        const emailMatch = (clinic.email || '').toLowerCase().includes(searchTerm.toLowerCase());
+        const specializationMatch = (clinic.specialization || '').toLowerCase().includes(searchTerm.toLowerCase());
         // const doctorMatch = clinic.responsibleDoctor.toLowerCase().includes(searchTerm.toLowerCase());
         const statusMatch = statusFilter === 'all' || clinic.status === statusFilter;
         return (nameMatch || emailMatch || specializationMatch) && statusMatch;

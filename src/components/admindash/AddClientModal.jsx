@@ -4,26 +4,26 @@ import { db } from '../../firebase/firebaseConfig';
 import { toast } from 'react-toastify';
 import logo from '../../assets/petut.png';
 export default function AddClientModal() {
-    const [name, setName] = useState('');
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [gender, setGender] = useState('')
 
     const handleAddClient = async () => {
         try {
-            if (!name.trim() || !email.trim() || !phone.trim() || !gender) {
+            if (!fullName.trim() || !email.trim() || !phone.trim() || !gender) {
                 toast.error('Please fill in all the required fields', { autoClose: 3000 });
                 return
             }
             await addDoc(collection(db, 'clients'), {
-                name,
+                fullName,
                 email,
                 phone,
                 gender
             });
             //validate form fields
             toast.success('Client added successfully', { autoClose: 3000 });
-            setName('');
+            setFullName('');
             setEmail('');
             setPhone('');
             setTimeout(() => {
@@ -48,7 +48,7 @@ export default function AddClientModal() {
                             <form action="#">
                                 <div className="clinic-name d-flex align-items-center gap-3 mb-3">
                                     <label htmlFor="clinic-name" className="form-label">Name</label>
-                                    <input type="text" className="form-control w-75" id="clinic-name" placeholder="Enter Client Name" value={name} onChange={(e) => setName(e.target.value)} />
+                                    <input type="text" className="form-control w-75" id="clinic-name" placeholder="Enter Client Name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
                                 </div>
                                 <div className="clinic-address d-flex align-items-center gap-3 mb-3">
                                     <label htmlFor="clinic-address" className="form-label">Email</label>

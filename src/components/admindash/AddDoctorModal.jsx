@@ -1,45 +1,49 @@
 import React, { Fragment, useState } from 'react'
-import Address from '../Address'
 import { toast } from 'react-toastify';
-import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import {  doc, setDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
-import specializations from '../../spcializations/spcializations.json'
 import { BeatLoader } from 'react-spinners';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../../firebase/firebaseConfig';
 import logo from '../../assets/petut.png';
 export default function AddDoctorModal() {
-    const [name, setName] = useState('');
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
-    const [specialization, setSpecialization] = useState('');
     const [gender, setGender] = useState('');
     const [status, setStatus] = useState('active');
     const [loading, setLoading] = useState(false);
 
 
+
+
     const handleAddDoctor = async () => {
-        if (loading) return;
         //validate form fields
-        if (!name.trim() || !email.trim() || !phone.trim() || !specialization.trim() || !gender.trim()) {
+        if (!fullName.trim() || !email.trim() || !phone.trim() || !gender.trim() || !status.trim() || !password.trim() || password.length < 6 || password.length > 20 ) {
             toast.error('Please fill in all the required fields', { autoClose: 3000 });
             return
         }
         try {
             setLoading(true);
-            await addDoc(collection(db, 'doctors'), {
-                name,
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            await setDoc(doc(db, "users", user.uid), {
+                uid: user.uid,
+                fullName,
                 email,
                 phone,
-                specialization,
                 gender,
                 status,
+                role: 'doctor',
                 createdAt: Timestamp.now()
             });
             toast.success('Doctor added successfully', { autoClose: 3000 });
             //reset fields
-            setName('');
+            setFullName('');
             setEmail('');
             setPhone('');
-            setSpecialization('');
+            setPassword('');
             setGender('');
             setStatus('active');
             setTimeout(() => {
@@ -47,41 +51,39 @@ export default function AddDoctorModal() {
                 window.location.reload();
             }, 3000);
         } catch (error) {
-            toast.error("Failed to add doctor, error:" + error.message, { autoClose: 3000 });
-        }finally {
+            toast.error("Failed to add doctor, error:" + error?.message, { autoClose: 3000 });
+        } finally {
             setLoading(false);
         }
+
     }
     return (
         <Fragment>
             <div className="modal fade" style={{ marginTop: '70px' }} id="adddoctor" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
-                        <div className="modal-header d-flex align-items-center justify-content-between">
+                        <div className="modal-header d-flex align-items-center justify-content-between py-0 pe-0">
                             <h1 className="modal-title fs-5" id="staticBackdropLabel">Doctor Info</h1>
                             <img src={logo} width={'90px'} height={'90px'} alt="" />
                         </div>
                         <div className="modal-body">
                             <form action="#">
-                                <div className="clinic-name d-flex align-items-center gap-3 mb-3">
-                                    <label htmlFor="clinic-name" className="form-label">Full Name</label>
-                                    <input type="text" className="form-control w-75" id="clinic-name" placeholder="Enter Full Name" value={name} onChange={(e) => setName(e.target.value)} />
+                                <div className="user-name d-flex align-items-center gap-3 mb-3">
+                                    <label htmlFor="user-name" className="form-label">Full Name</label>
+                                    <input type="text" className="form-control w-75" id="user-name" placeholder="Enter Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
                                 </div>
-                                <div className="clinic-address d-flex align-items-center gap-3 mb-3">
-                                    <label htmlFor="clinic-address" className="form-label">Email</label>
-                                    <input type="email" className="form-control w-75" id="clinic-address" placeholder="Enter Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                <div className="user-email d-flex align-items-center gap-3 mb-3">
+                                    <label htmlFor="user-email" className="form-label">Email</label>
+                                    <input type="email" className="form-control w-75" id="user-email" placeholder="Enter Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                                 </div>
-                                <div className="clinic-address d-flex align-items-center gap-3 mb-3">
-                                    <label htmlFor="clinic-address" className="form-label">Phone</label>
-                                    <input type="tel" className="form-control w-75" id="clinic-address" placeholder="Enter Phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                                <div className="user-password d-flex align-items-center gap-3 mb-3">
+                                    <label htmlFor="user-password" className="form-label">Password</label>
+                                    <input type="password" className="form-control w-75" id="user-password" placeholder="Enter Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                                 </div>
-                                <div className="spcialization d-flex align-items-center gap-3 mb-3">
-                                    <label className="form-label">Specialization</label>
-                                    <select className="form-select w-50" onChange={(e) => setSpecialization(e.target.value)}>
-                                        {specializations.map((spec, index) => (
-                                            <option value={spec.name} key={index}>{spec.name}</option>
-                                        ))}
-                                    </select>
+
+                                <div className="user-phone d-flex align-items-center gap-3 mb-3">
+                                    <label htmlFor="user-phone" className="form-label">Phone</label>
+                                    <input type="tel" className="form-control w-75" id="user-phone" placeholder="Enter Phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
                                 </div>
                                 <div className="gender mb-2 ">
                                     <p className='fw-bold mb-2'>Choose Gander</p>
@@ -110,7 +112,7 @@ export default function AddDoctorModal() {
                         </div>
                         <div className="modal-footer d-flex gap-3">
                             <button type="button" className="btn btn-danger" id='close-btn-modal' data-bs-dismiss="modal" style={{ width: '100px' }}>Close</button>
-                            <button type="button" className="custom-button" style={{ width: '120px' }} onClick={handleAddDoctor} disabled={loading}>{loading ? <BeatLoader color='#D9A741' /> : 'Add Doctor'}</button>
+                            <button type="button" className="custom-button" style={{ width: '120px' }} onClick={handleAddDoctor} disabled={loading}>{loading ? <BeatLoader size={10} color='#D9A741' /> : 'Add Doctor'}</button>
                         </div>
 
                     </div>

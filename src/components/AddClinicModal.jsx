@@ -1,11 +1,12 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { MdDelete } from "react-icons/md";
 import Address from './Address';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, Timestamp, setDoc, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 import { toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import specializations from '../spcializations/spcializations.json';
+import { auth } from '../firebase/firebaseConfig';
 import logo from '../assets/petut.png';
 export default function AddClinicModal() {
   const [day, setDay] = useState('');
@@ -20,6 +21,47 @@ export default function AddClinicModal() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('active');
   const [address, setAddress] = useState({ governorate: '', city: '' });
+
+  const [doctors, setDoctors] = useState([]);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+
+
+  const [userData, setUserData] = useState(null);
+  const isAdmin = userData?.role === 'admin';
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        const docRef = doc(db, "users", currentUser.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setUserData(docSnap.data());
+        }
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    const getDoctors = async () => {
+      try {
+        const q = query(collection(db, "users"), where("role", "==", "doctor"));
+        const querySnapshot = await getDocs(q);
+        const doctorsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setDoctors(doctorsData);
+      } catch (error) {
+        toast.error("Failed to fetch doctors, error:" + error.message, { autoClose: 3000 });
+      }
+
+    };
+    if (isAdmin) {
+      getDoctors();
+    }
+  }, [isAdmin]);
 
 
 
@@ -57,30 +99,6 @@ export default function AddClinicModal() {
       });
       return
     }
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!emailRegex.test(email)) {
-    //   toast.error('Please enter a valid email address', {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //     transition: Slide,
-    //   });
-    //   return
-    // }
-    // const phoneRegex = /^(010|011|012|015)[0-9]{8}$/;
-    // if (!phoneRegex.test(phone)) {
-    //   toast.error('Please enter a valid Egyptian phone number', {
-    //     position: "top-right",
-    //     autoClose: 3000,
-    //     theme: "colored",
-    //   });
-    //   return;
-    // }
     try {
       // Add clinic data to Firebase 
       const clinicData = {
@@ -91,9 +109,12 @@ export default function AddClinicModal() {
         status,
         workingHours,
         address,
+        doctorId: isAdmin ? selectedDoctor?.id : auth.currentUser.uid,
+        doctorName: isAdmin ? selectedDoctor?.fullName : auth.currentUser.displayName,
         createdAt: Timestamp.now(),
       };
-      await addDoc(collection(db, 'clinics'), clinicData);
+      const docRef = await addDoc(collection(db, 'clinics'), clinicData);
+      await setDoc(docRef, { ...clinicData, clinicId: docRef.id });
       toast.success('Clinic added successfully', {
         position: "top-right",
         autoClose: 3000,
@@ -127,7 +148,7 @@ export default function AddClinicModal() {
       <div className="modal fade" id="addclinic" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
-            <div className="modal-header d-flex align-items-center justify-content-between">
+            <div className="modal-header d-flex align-items-center justify-content-between py-0 pe-0">
               <h1 className="modal-title fs-5" id="staticBackdropLabel">Clinic Info</h1>
               <img src={logo} width={'90px'} height={'90px'} alt="logo" />
             </div>
@@ -155,6 +176,31 @@ export default function AddClinicModal() {
                     ))}
                   </select>
                 </div>
+
+                {isAdmin && (
+
+                  <div className="mb-3 d-flex align-items-center gap-3">
+                    <label htmlFor="doctor" className="form-label">Doctor</label>
+                    <select
+                      className="form-select w-50"
+                      id="doctor"
+                      value={selectedDoctor ? `${selectedDoctor.id}|${selectedDoctor.name || selectedDoctor.fullName}` : ''}
+                      onChange={(e) => {
+                        const [id, name] = e.target.value.split('|');
+                        setSelectedDoctor({ id, name });
+                      }}
+                      required
+                    >
+                      <option value="">Select a doctor</option>
+                      {doctors.map((doctor) => (
+                        <option key={doctor.id} value={`${doctor.id}|${doctor.fullName || doctor.name}`}>
+                          {doctor.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
                 <Address onAddressChange={setAddress} />
 
                 <hr />

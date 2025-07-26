@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom'
 import Clinic from '../../components/doctordash/Clinic'
 import { RiAddLine } from "react-icons/ri";
 import AddClinic from '../../components/AddClinicModal';
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import { BeatLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
+import { auth } from '../../firebase/firebaseConfig';
  
 export default function Manageclinics() {
   const [loading, setLoading] = useState(true);
@@ -20,7 +21,8 @@ export default function Manageclinics() {
     const getClinics = async () => {
       try {
         const clinicsRef = collection(db, 'clinics');
-        const querySnapshot = await getDocs(clinicsRef);
+        const q = query(clinicsRef, where("doctorId", "==", auth.currentUser.uid));
+        const querySnapshot = await getDocs(q);
         const clinicsData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()

@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import { BeatLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
@@ -28,7 +28,8 @@ export default function DoctorsTable() {
     useEffect(() => {
         const fetchDoctors = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, "doctors"));
+                const q = query(collection(db, "users"), where("role", "==", "doctor"));
+                const querySnapshot = await getDocs(q);
                 const doctorsData = querySnapshot.docs.map(doc => ({
                     id: doc.id,
                     ...doc.data(),
@@ -46,10 +47,10 @@ export default function DoctorsTable() {
     }, []);
 
     // delete doctor from firestore
-    const handleDeleteDoctor = async (id) => {
+    const handleDeleteDoctor = async (doctorId) => {
         try {
-            await deleteDoc(doc(db, 'doctors', id));
-            setDoctors(doctors => doctors.filter(doctor => doctor.id != id))
+            await deleteDoc(doc(db, 'users', doctorId));
+            setDoctors(doctors => doctors.filter(doctor => doctor.id != doctorId))
             toast.success('Doctor deleted successfully', { autoClose: 3000 });
             // window.location.reload()
         } catch (err) {
@@ -58,12 +59,11 @@ export default function DoctorsTable() {
     }
     // filter doctors by name, email, or specialization
     const filteredDoctors = doctors.filter(doctor => {
-        const nameMatch = doctor.name.toLowerCase().includes(searchTerm.toLowerCase());
-        const emailMatch = doctor.email.toLowerCase().includes(searchTerm.toLowerCase());
-        const specializationMatch = doctor.specialization.toLowerCase().includes(searchTerm.toLowerCase());
+        const nameMatch = (doctor.name || '').toLowerCase().includes(searchTerm.toLowerCase());
+        const emailMatch = (doctor.email || '').toLowerCase().includes(searchTerm.toLowerCase());
         const genderMatch = genderFilter === 'all' || doctor.gender === genderFilter;
         const statusMatch = statusFilter === 'all' || doctor.status === statusFilter;
-        return (nameMatch || emailMatch || specializationMatch) && statusMatch && genderMatch;
+        return (nameMatch || emailMatch) && statusMatch && genderMatch;
     })
     return (
         <Fragment>
@@ -100,12 +100,11 @@ export default function DoctorsTable() {
             ) : (
                 <>
 
-                    <div className="patient-table mt-4 bg-white shadow rounded w-100">
+                    <div className="patient-table mt-4 bg-white shadow rounded w-100" >
                         <table className="table">
                             <thead className="table-light py-3">
                                 <tr className="">
                                     <th className="px-4 py-3">Name</th>
-                                    <th className="px-4 py-3">Specialization</th>
                                     <th className="px-4 py-3">Rating</th>
                                     <th className="px-4 py-3">Gender</th>
                                     <th className="px-4 py-3">Status</th>
@@ -115,8 +114,7 @@ export default function DoctorsTable() {
                             <tbody>
                                 {filteredDoctors.map((doctor) => (
                                     <tr key={doctor.id}>
-                                        <td className="px-4 py-3">{doctor.name}</td>
-                                        <td className="px-4 py-3">{doctor.specialization}</td>
+                                        <td className="px-4 py-3">{doctor.fullName}</td>
                                         <td className="px-4 py-3"><MdStarRate color='#D9A741' /></td>
                                         <td className="px-4 py-3" ><span style={{ color: 'white', backgroundColor: doctor.gender === 'male' ? '#007BFF ' : '#E91E63 ', fontSize: '14px' }} className='px-3 py-1 rounded rounded-5 '>{doctor.gender}</span></td>
                                         <td className="px-4 py-3"><span style={{ color: 'white', backgroundColor: doctor.status === 'active' ? '#28a745  ' : '#6c757d   ', fontSize: '14px' }} className='px-3 py-1 rounded rounded-5 '>{doctor.status}</span></td>
@@ -131,12 +129,15 @@ export default function DoctorsTable() {
                                                 <TbEdit className='mb-1' />
                                             </button>
                                             <EditDoctorModal doctor={doctor} modalId={doctor.id} />
-                                            <MdDelete cursor={"pointer"} size={20} className='text-danger' data-bs-toggle="modal" data-bs-target="#confirmModal"
-                                                onClick={() => {
-                                                    setShowConfirm(true);
-                                                    setSelectedDoctorId(doctor.id);
-                                                }}
-                                            />
+                                            <button type="button" className="btn border-0 p-0" >
+                                                <MdDelete cursor={"pointer"} size={20} className='text-danger' data-bs-toggle="modal" data-bs-target="#confirmModal"
+                                                    onClick={() => {
+                                                        setShowConfirm(true);
+                                                        setSelectedDoctorId(doctor.id);
+                                                    }}
+                                                />
+                                            </button>
+
                                         </td>
                                     </tr>
                                 ))}

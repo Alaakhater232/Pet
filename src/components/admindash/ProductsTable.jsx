@@ -51,7 +51,7 @@ export default function ProductsTable({ products, setProducts, handleDeleteProdu
             </div>
             {loading ? <h3 className='text-center mt-5'><BeatLoader color='#D9A741' /></h3> : products?.length === 0 ? <h3 className='text-center mt-5'>No products found</h3> : filterProducts?.length === 0 ? <h3 className='text-center mt-5'>No products found</h3> : (
                 <>
-                    <div className="products-table mt-4 mb-5  bg-white shadow rounded w-100 ">
+                    <div className="products-table mt-4 mb-5  bg-white shadow rounded w-100 " style={{ maxHeight: '730px', overflowY: 'auto' }}>
                         <table className="table">
                             <thead className="table-light py-3">
                                 <tr className="">

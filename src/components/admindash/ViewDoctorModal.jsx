@@ -14,30 +14,18 @@ export default function ViewDoctorModal({doctor, modalId}) {
                         <div className="modal-body d-flex align-items-center gap-5">
                             <div className="">
                                 <p>Doctor Name :</p>
-                                <p>Specialization :</p>
                                 <p>Email :</p>
                                 <p>Phone :</p>
                                 <p>Status :</p>
-                                <p >Gender</p>
+                                <p>Gender</p>
                             </div>
                             <div className="">
 
-                                <p>{doctor.name || ''}</p>
-                                <p>{doctor.specialization || ''}</p>
+                                <p>{doctor.fullName || ''}</p>
                                 <p>{doctor.email || ''}</p>
                                 <p>{doctor.phone || ''}</p>
-                                {/* <p>{doctor.address.governorate || ''} - {doctor.address.city || ''}</p> */}
                                 <p style={{ color: 'white', backgroundColor: doctor.status === 'active' ? '#28a745  ' : '#6c757d   ', fontSize: '14px' }} className='px-3 py-1 rounded rounded-5 w-50 text-center '>{doctor.status || ''}</p>
                                 <p style={{ color: 'white', backgroundColor: doctor.gender === 'male' ? '#007BFF ' : '#E91E63 ', fontSize: '14px' }} className='px-3 py-1 rounded rounded-5 w-50 text-center'>{doctor.gender || ''}</p>
-                                {/* <p>
-                                    {clinic.workingHours && clinic.workingHours.length > 0
-                                        ? clinic.workingHours.map((day, i) => (
-                                            <span key={i} className='d-block'>
-                                                {day.day}: {day.openTime} - {day.closeTime}
-                                            </span>
-                                        ))
-                                        : 'No Working Hours'}
-                                </p> */}
                             </div>
 
                         </div>

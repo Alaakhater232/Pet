@@ -15,7 +15,8 @@ import OrdersTable from '../../components/admindash/OrdersTable';
 export default function Store() {
     const [products, setProducts] = useState([]);
     const [orders, setOrders] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [productLoading, setProductLoading] = useState(true);
+    const [orderLoading, setOrderLoading] = useState(true);
 
 
 
@@ -34,7 +35,7 @@ export default function Store() {
             } catch (error) {
                 toast.error("Failed to fetch products, error:" + error.message, { autoClose: 3000 });
             } finally {
-                setLoading(false);
+                setProductLoading(false);
             }
         }
         getProducts();
@@ -63,7 +64,7 @@ export default function Store() {
 
 
 
-
+    //get orders from firebase
     useEffect(() => {
         const fetchOrders = async () => {
             try {
@@ -75,6 +76,8 @@ export default function Store() {
                 setOrders(allOrders);
             } catch (error) {
                 console.error("Error fetching orders:", error.message);
+            }finally {
+                setOrderLoading(false);
             }
         };
 
@@ -88,7 +91,7 @@ export default function Store() {
             await deleteDoc(doc(db, "products", id));
             setProducts(products => products.filter(product => product.id !== id));
             toast.success("Product deleted successfully", { autoClose: 3000 });
-            setLoading(true);
+            setProductLoading(true);
             setTimeout(() => {
                 window.location.reload();
 
@@ -115,10 +118,10 @@ export default function Store() {
                 <button className='custom-button d-flex align-items-center fw-bold' data-bs-toggle="modal" data-bs-target="#addproduct" > <RiAddLine size={20} /> Add Product</button>
             </div>
             <AddProductModal />
-            {loading ? (<h3 className='text-center mt-5'><BeatLoader color='#D9A741' /></h3>) : products?.length === 0 ? <h3 className='text-center mt-5'>No Products found</h3> : (
+            {productLoading ? (<h3 className='text-center mt-5'><BeatLoader color='#D9A741' /></h3>) : products?.length === 0 ? <h3 className='text-center my-5'>No Products found</h3> : (
 
                 <>
-                    <ProductsTable products={products} setProducts={setProducts} handleDeleteProduct={handleDeleteProduct} loading={loading} />
+                    <ProductsTable products={products} setProducts={setProducts} handleDeleteProduct={handleDeleteProduct} loading={productLoading} />
                 </>
             )}
             <hr />
@@ -126,8 +129,8 @@ export default function Store() {
                 <h1>Orders</h1>
                 <p>Managing all Orders will be done in the store page </p>
             </div>
-            {loading ? (<h3 className='text-center mt-5'><BeatLoader color='#D9A741' /></h3>) : orders.length === 0 ? <h3 className='text-center mt-5'>No orders found</h3> : (
-                <OrdersTable orders={orders} setOrders={setOrders} loading={loading} />
+            {orderLoading ? (<h3 className='text-center mt-5'><BeatLoader color='#D9A741' /></h3>) : orders.length === 0 ? <h3 className='text-center mt-5'>No orders found</h3> : (
+                <OrdersTable orders={orders} setOrders={setOrders} loading={orderLoading} />
             )}
         </Fragment>
     )

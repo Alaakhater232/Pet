@@ -3,12 +3,14 @@ import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
 import { toast } from 'react-toastify';
 import { BeatLoader } from 'react-spinners';
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import EditClientModal from './EditClientModal';
 
 import { BiSearchAlt2 } from "react-icons/bi";
 import ConfirmModal from '../ConfirmModal';
+import { FaEye } from "react-icons/fa";
+import ViewClientModal from './ViewClientModal';
 
 
 
@@ -22,13 +24,14 @@ export default function Clienttable() {
     const [showConfirm, setShowConfirm] = useState(false);
     const [selectedClientId, setSelectedClientId] = useState(null);
 
-
+ 
     //get clients from firestore
 
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, "clients"));
+                const q = query(collection(db, "users"), where("role", "==", "customer"))
+                const querySnapshot = await getDocs(q);
                 const clientsData = querySnapshot.docs.map(doc => ({
                     id: doc.id,
                     ...doc.data(),
@@ -44,10 +47,10 @@ export default function Clienttable() {
     }, [])
 
     // delete client from firestore
-    const handleDeleteClient = async (id) => {
+    const handleDeleteClient = async (clientId) => {
         try {
-            await deleteDoc(doc(db, 'clients', id));
-            setClients(clients => clients.filter(client => client.id != id))
+            await deleteDoc(doc(db, 'users', clientId));
+            setClients(clients => clients.filter(client => client.id != clientId))
             toast.success('Client deleted successfully', { autoClose: 3000 });
             // window.location.reload()
         } catch (err) {
@@ -56,9 +59,9 @@ export default function Clienttable() {
     }
 
     // filter clients by name and email
-    const filteredClients = clients.filter(client => {
-        const nameMatch = client.name.toLowerCase().includes(searchTerm.toLowerCase());
-        const emailMatch = client.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const filteredClients = clients.filter((client)=> {
+        const nameMatch = client.name?.toLowerCase().includes(searchTerm.toLowerCase());
+        const emailMatch = client.email?.toLowerCase().includes(searchTerm.toLowerCase());
         const genderMatch = genderFilter === 'all' || client.gender === genderFilter;
         return (nameMatch || emailMatch) && genderMatch;
     });
@@ -88,7 +91,7 @@ export default function Clienttable() {
             </div>
             {loading ? <h3 className='text-center mt-5'><BeatLoader color='#D9A741' /></h3> : clients.length === 0 ? <h3 className='text-center mt-5'>No clients found</h3> : filteredClients.length === 0 ? <h3 className='text-center mt-5'>No clients found</h3> : (
                 <div className="patient-table mt-4 bg-white shadow rounded w-100">
-                    <table class="table">
+                    <table className="table">
                         <thead className="table-light py-3">
                             <tr className="">
                                 <th className="px-4 py-3">Name</th>
@@ -101,16 +104,19 @@ export default function Clienttable() {
                         <tbody>
                             {filteredClients?.map(client => (
                                 <tr key={client.id}>
-                                    <td className="px-4 py-3">{client.name}</td>
+                                    <td className="px-4 py-3">{client.fullName}</td>
                                     <td className="px-4 py-3">{client.email}</td>
                                     <td className="px-4 py-3">{client.phone}</td>
                                     <td className="px-4 py-3" ><span style={{ color: 'white', backgroundColor: client.gender === 'male' ? '#007BFF ' : '#E91E63 ', fontSize: '14px' }} className='px-3 py-1 rounded rounded-5 '>{client.gender}</span></td>
-                                    {/* <td className="px-4 py-3">{client.gender}</td> */}
-                                    <td className="px-4 py-3">
-                                        <button type="button" className="btn border-0 p-0 me-2" data-bs-toggle="modal" data-bs-target={`#editclient-${client.id}`}>
+                                    <td className="px-4 py-3 d-flex align-items-center gap-2">
+                                        <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target={`#viewclient-${client.id}`}>
+                                            <FaEye cursor={"pointer"} />
+                                        </button>
+                                        <ViewClientModal client={client} modalId={client.id} />
+                                        <button type="button" className="btn border-0 p-0" data-bs-toggle="modal" data-bs-target={`#editclient-${client.id}`}>
                                             <TbEdit size={20} className='' />
                                         </button>
-                                        <EditClientModal client={client} clientId={client.id} />
+                                        <EditClientModal client={client} modalId={client.id} />
                                         <MdDelete cursor={"pointer"} size={20} className='text-danger' onClick={() => {
                                             setShowConfirm(true);
                                             setSelectedClientId(client.id);
